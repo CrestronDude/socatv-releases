@@ -62,8 +62,7 @@ class IptvRepository(private val db: NovaDatabase) {
                     when {
                         userInfo == null -> Result.failure(Exception("Invalid response from server"))
                         userInfo.auth != 1 -> Result.failure(Exception("Invalid username or password"))
-                        userInfo.status != "Active" -> Result.failure(Exception("Account ${userInfo.status ?: "inactive"}"))
-                        else -> Result.success(body)
+                        else -> Result.success(body)   // trust auth=1; status varies across panels
                     }
                 } else {
                     Result.failure(Exception("Server error: ${response.code()}"))

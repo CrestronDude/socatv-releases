@@ -113,9 +113,8 @@ class LoginActivity : AppCompatActivity() {
                     Prefs.putString("created_at",      info.createdAt ?: "—")
                     Prefs.putString("is_trial",        info.isTrial ?: "0")
                 }
-                // Reset availability and probe in background — PanelPickerActivity listens
+                // Reset so PanelPickerActivity knows to start a fresh probe
                 PanelAvailability.reset()
-                PanelAvailability.probeAsync(repository, lifecycleScope)
 
                 navigateAfterLogin()
             } else {

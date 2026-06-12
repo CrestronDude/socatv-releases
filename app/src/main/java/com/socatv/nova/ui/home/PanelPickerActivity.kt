@@ -82,9 +82,15 @@ class PanelPickerActivity : AppCompatActivity() {
         refreshStatusBars()
         AppUpdater.showPendingDialog(this, lifecycleScope)
 
-        // Register for live availability updates from the background probe started in LoginActivity
+        // Register callback so adapter updates whenever a probe result arrives
         PanelAvailability.onUpdated = { refreshPanelAvailability() }
         refreshPanelAvailability()
+
+        // Start availability probe here — LoginActivity's scope dies on finish()
+        // Only probe when logged in and counts aren't known yet (-1 = never probed)
+        if (Prefs.isLoggedIn && PanelAvailability.live == -1) {
+            PanelAvailability.probeAsync(repo, lifecycleScope)
+        }
     }
 
     override fun onPause() {
