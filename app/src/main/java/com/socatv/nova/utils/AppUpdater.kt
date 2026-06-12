@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
@@ -122,6 +123,62 @@ object AppUpdater {
             .apply { if (!force) setNegativeButton("Later", null) }
             .setCancelable(!force)
             .show()
+    }
+
+    /**
+     * Silent auto-update: downloads the APK in the background, reports progress via [onProgress],
+     * then triggers the system installer. No dialog is shown.
+     * Returns true if install was triggered, false if download failed.
+     * Must be called from a coroutine; runs download on IO, switches to Main for callbacks.
+     */
+    suspend fun autoDownloadAndInstall(
+        activity: AppCompatActivity,
+        apkUrl: String,
+        label: String,
+        onProgress: (pct: Int, statusText: String) -> Unit
+    ): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val updateDir = File(activity.getExternalFilesDir(null), "update")
+            updateDir.mkdirs()
+            val apkFile = File(updateDir, "SocaTvNova_update.apk")
+
+            withContext(Dispatchers.Main) { onProgress(0, "Downloading update $label…") }
+
+            val req = Request.Builder().url(apkUrl)
+                .header("Accept", "application/octet-stream")
+                .build()
+            val resp = http.newCall(req).execute()
+            if (!resp.isSuccessful) return@withContext false
+
+            val body  = resp.body ?: return@withContext false
+            val total = body.contentLength()
+            var downloaded = 0L
+
+            apkFile.outputStream().use { out ->
+                body.byteStream().use { input ->
+                    val buf = ByteArray(16_384)
+                    var n: Int
+                    while (input.read(buf).also { n = it } != -1) {
+                        out.write(buf, 0, n)
+                        downloaded += n
+                        if (total > 0) {
+                            val pct = (downloaded * 100 / total).toInt()
+                            withContext(Dispatchers.Main) {
+                                onProgress(pct, "Updating SocaTV Nova… $pct%")
+                            }
+                        }
+                    }
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                onProgress(100, "Installing update…")
+                triggerInstall(activity, apkFile)
+            }
+            true
+        } catch (_: Exception) {
+            false
+        }
     }
 
     fun clearPending() {

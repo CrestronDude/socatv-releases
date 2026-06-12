@@ -44,4 +44,39 @@
 
     </LinearLayout>
 
+    <!-- Auto-update progress — shown during silent background download -->
+    <LinearLayout
+        android:id="@+id/layoutUpdateProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="64dp"
+        android:paddingEnd="64dp"
+        android:paddingBottom="56dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvUpdateStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="14dp"
+            android:text="Updating SocaTV Nova…"
+            android:textColor="#CCFFFFFF"
+            android:textSize="13sp"
+            android:letterSpacing="0.04" />
+
+        <ProgressBar
+            android:id="@+id/progressUpdate"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="@color/nova_primary"
+            android:progressBackgroundTint="#33FFFFFF" />
+
+    </LinearLayout>
+
 </FrameLayout>

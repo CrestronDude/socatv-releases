@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.socatv.nova.BuildConfig
 import com.socatv.nova.databinding.ActivitySplashBinding
 import com.socatv.nova.ui.home.PanelPickerActivity
 import com.socatv.nova.ui.paywall.PaywallActivity
@@ -18,7 +19,6 @@ import com.socatv.nova.utils.LicenseManager
 import com.socatv.nova.utils.Prefs
 import com.socatv.nova.utils.RemoteConfigManager
 import com.socatv.nova.utils.TrialManager
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
@@ -38,25 +38,38 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val startMs = System.currentTimeMillis()
 
-            // Fetch remote config (uses disk cache if offline; fast after first run)
-            RemoteConfigManager.fetch()
+            // Fetch remote config — uses disk cache if offline, fast after first run
+            val config = RemoteConfigManager.fetch()
 
-            // Check GitHub for updates — cap at 4 s total so slow networks never stall the splash
-            val elapsed = System.currentTimeMillis() - startMs
-            val forceBlocking = withTimeoutOrNull((4_000L - elapsed).coerceAtLeast(0L)) {
-                AppUpdater.checkAndStore()
-            } ?: false
+            // Check for update using the already-fetched Gist config (no extra API call)
+            val hasUpdate = config.latestVersionCode > BuildConfig.VERSION_CODE
+                    && config.latestApkUrl.isNotBlank()
 
-            // Respect minimum splash duration
-            val totalElapsed = System.currentTimeMillis() - startMs
-            val remaining = 2_500L - totalElapsed
-            if (remaining > 0) delay(remaining)
+            if (hasUpdate) {
+                // Show progress overlay and auto-download silently
+                binding.layoutUpdateProgress.visibility = View.VISIBLE
 
-            if (forceBlocking) {
-                // Force update: show the blocking dialog and do NOT navigate away.
-                // The user must download + install before they can use the app.
-                AppUpdater.showPendingDialog(this@SplashActivity, lifecycleScope)
+                val installed = withTimeoutOrNull(5 * 60_000L) {
+                    AppUpdater.autoDownloadAndInstall(
+                        activity   = this@SplashActivity,
+                        apkUrl     = config.latestApkUrl,
+                        label      = config.latestVersionName,
+                        onProgress = { pct, text ->
+                            binding.tvUpdateStatus.text = text
+                            binding.progressUpdate.progress = pct
+                        }
+                    )
+                } ?: false
+
+                // Give the installer a moment to surface, then navigate regardless
+                // (user may accept or decline the install prompt)
+                delay(1_500L)
+                if (!isFinishing && !isDestroyed) navigateNext()
             } else {
+                // No update — respect minimum splash duration
+                val elapsed = System.currentTimeMillis() - startMs
+                val remaining = 2_500L - elapsed
+                if (remaining > 0) delay(remaining)
                 navigateNext()
             }
         }
