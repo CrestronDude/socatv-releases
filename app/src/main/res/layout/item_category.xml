@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="100dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/card_nova"
+    android:focusable="true"
+    android:clickable="true"
+    android:elevation="3dp">
+
+    <!-- TMDb backdrop art per category (loaded async, ~40% alpha) -->
+    <ImageView
+        android:id="@+id/ivCategoryBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.40" />
+
+    <!-- Subtle bottom-to-top dark gradient so icon/label remain legible -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000" />
+
+    <!-- Focus ring -->
+    <View
+        android:id="@+id/focusRing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_focus_ring"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="8dp"
+            android:tint="@color/nova_primary" />
+
+        <TextView
+            android:id="@+id/tvLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:maxLines="1" />
+
+    </LinearLayout>
+
+</FrameLayout>

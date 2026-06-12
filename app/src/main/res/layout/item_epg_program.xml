@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/epg_program_selector"
+    android:focusable="true"
+    android:clickable="true">
+
+    <!-- Time + badges row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/tvProgramTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#AA00DCFF"
+            android:textSize="11sp"
+            android:fontFamily="monospace" />
+
+        <TextView
+            android:id="@+id/badgeProgramLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LIVE"
+            android:textColor="#FF080810"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:background="#FF00DCFF"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="6dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/badgeProgramArchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CATCH-UP"
+            android:textColor="#FF080810"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:background="#FFCC44"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginStart="6dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvProgramTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+    <!-- Description -->
+    <TextView
+        android:id="@+id/tvProgramDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#88FFFFFF"
+        android:textSize="12sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Progress (current program only) -->
+    <ProgressBar
+        android:id="@+id/progressProgram"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:progressTint="@color/nova_primary"
+        android:progressBackgroundTint="#2200DCFF"
+        android:visibility="gone" />
+
+</LinearLayout>

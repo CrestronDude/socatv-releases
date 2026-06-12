@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imgFanart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_fanart_2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/panel_overlay" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#CC080810"
+            android:paddingStart="8dp"
+            android:paddingEnd="20dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="#FF00DCFF"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="@drawable/card_nova_selector"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="SUBSCRIPTION"
+                android:textColor="@color/nova_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+            <!-- Status pill in header -->
+            <TextView
+                android:id="@+id/tvHeaderStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/card_nova"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+        </LinearLayout>
+
+        <!-- Announcement banner (hidden by default) -->
+        <LinearLayout
+            android:id="@+id/layoutAnnouncement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CC002244"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="📣"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvAnnouncement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:textColor="#FF00DCFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Two-column body -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:gravity="top">
+
+            <!-- LEFT: App license card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="55"
+                android:orientation="vertical"
+                android:layout_marginEnd="14dp">
+
+                <!-- App license card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD141422"
+                    android:padding="20dp"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="APP LICENSE"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="14dp" />
+
+                    <!-- Big status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/tvStatusIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="★"
+                            android:textSize="28sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvAppStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvAppStatusSub"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#AAFFFFFF"
+                                android:textSize="12sp"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Trial progress bar (gone when licensed) -->
+                    <LinearLayout
+                        android:id="@+id/layoutTrialProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="14dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+                                android:id="@+id/tvTrialDayLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#AAFFFFFF"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvTrialDaysLeft"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/nova_primary"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progressTrial"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:progressTint="@color/nova_primary"
+                            android:progressBackgroundTint="#22FFFFFF"
+                            android:max="100" />
+
+                    </LinearLayout>
+
+                    <!-- License key (shown when licensed) -->
+                    <LinearLayout
+                        android:id="@+id/layoutLicenseKey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LICENSE KEY"
+                            android:textColor="#66FFFFFF"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.15"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/tvLicenseKey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#22FFFFFF"
+                            android:padding="10dp"
+                            android:textColor="@color/nova_primary"
+                            android:textSize="12sp"
+                            android:fontFamily="monospace"
+                            android:letterSpacing="0.05" />
+
+                    </LinearLayout>
+
+                    <!-- Expiry row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="APP ACCESS UNTIL"
+                            android:textColor="#66FFFFFF"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.15" />
+
+                        <TextView
+                            android:id="@+id/tvAppExpiry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFCC44"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Admin message card (hidden by default) -->
+                <LinearLayout
+                    android:id="@+id/layoutAdminMsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD001A33"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MESSAGE FROM SOCATV"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:id="@+id/tvAdminMsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#DDFFFFFF"
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="3dp" />
+
+                </LinearLayout>
+
+                <!-- IPTV service card -->
+                <LinearLayout
+                    android:id="@+id/layoutIptvCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD141422"
+                    android:padding="18dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IPTV SERVICE"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Service Status"
+                            android:textColor="#88FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvIptvStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Service Expires"
+                            android:textColor="#88FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvIptvExpiry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFCC44"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Connected User"
+                            android:textColor="#88FFFFFF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvIptvUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#DDFFFFFF"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- RIGHT: Actions + Features -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="45"
+                android:orientation="vertical">
+
+                <!-- Action card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD141422"
+                    android:padding="18dp"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MANAGE"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Get Access (trial/expired only) -->
+                    <Button
+                        android:id="@+id/btnGetAccess"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/btn_nova"
+                        android:textColor="#080810"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:focusable="true"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnActivateKey"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/btn_nova_outline"
+                        android:text="Enter License Key"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="13sp"
+                        android:focusable="true" />
+
+                    <Button
+                        android:id="@+id/btnRestore"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@drawable/btn_nova_outline"
+                        android:text="Restore License"
+                        android:textColor="#AAFFFFFF"
+                        android:textSize="12sp"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+                <!-- What's included card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD141422"
+                    android:padding="18dp"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="WHAT'S INCLUDED"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✓  Unlimited Live TV channels\n✓  Movies &amp; Series on demand\n✓  Multi-screen viewing\n✓  Electronic Programme Guide\n✓  QR code sign-in\n✓  Cloud sync &amp; updates\n✓  Priority support"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="5dp" />
+
+                </LinearLayout>
+
+                <!-- Price card (trial/expired only) -->
+                <LinearLayout
+                    android:id="@+id/layoutPriceCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD0D1A00"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvPriceLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFD700"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Less than $1 per month"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:layout_marginTop="3dp" />
+
+                </LinearLayout>
+
+                <!-- Share / Download card -->
+                <LinearLayout
+                    android:id="@+id/layoutShareCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#DD141422"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SHARE THIS APP"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Download on any Android device:"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvDownloadUrl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="bit.ly/SocaTvNova"
+                        android:textColor="#FF00DCFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
+
+                    <Button
+                        android:id="@+id/btnOpenDownload"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@drawable/btn_nova_outline"
+                        android:text="Open Download Page"
+                        android:textColor="@color/nova_primary"
+                        android:textSize="12sp"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

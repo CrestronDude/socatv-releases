@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NovaTheme" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/nova_bg</item>
+        <item name="android:colorPrimary">@color/nova_primary</item>
+        <item name="android:colorAccent">@color/nova_primary</item>
+        <item name="colorAccent">@color/nova_primary</item>
+        <item name="android:textColorPrimary">@color/nova_text_primary</item>
+        <item name="android:textColorSecondary">@color/nova_text_secondary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/nova_bg</item>
+        <item name="colorControlActivated">@color/nova_primary</item>
+        <item name="colorControlHighlight">@color/nova_focused</item>
+        <item name="android:windowAnimationStyle">@style/NovaWindowAnimation</item>
+    </style>
+
+    <style name="NovaTheme.Splash">
+        <item name="android:windowBackground">@color/nova_bg</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="NovaTheme.Player">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="NovaDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@drawable/card_nova</item>
+        <item name="android:textColorPrimary">@color/nova_text_primary</item>
+        <item name="colorAccent">@color/nova_primary</item>
+        <item name="colorControlActivated">@color/nova_primary</item>
+    </style>
+
+    <style name="NovaWindowAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="NovaButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/btn_nova</item>
+        <item name="android:textColor">@color/nova_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="NovaEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/input_bg</item>
+        <item name="android:textColor">@color/nova_text_primary</item>
+        <item name="android:textColorHint">@color/nova_text_tertiary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+</resources>

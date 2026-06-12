@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="36dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#3300DCFF"
+        android:layout_gravity="start" />
+
+    <TextView
+        android:id="@+id/tvGridTimeSlot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="#AA00DCFF"
+        android:textSize="11sp"
+        android:fontFamily="monospace"
+        android:layout_marginStart="6dp" />
+
+</FrameLayout>

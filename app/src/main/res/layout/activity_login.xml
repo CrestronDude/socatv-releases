@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nova_bg">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_nova_gradient" />
+
+    <!-- Two-column layout for TV landscape -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Left column: main login -->
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_nova"
+            android:orientation="vertical"
+            android:padding="36dp"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOCA TV NOVA"
+                android:textColor="@color/nova_primary"
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.15"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign in to continue"
+                android:textColor="#88FFFFFF"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="28dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textColor="#99FFFFFF"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/input_bg"
+                android:hint="Username"
+                android:textColor="@android:color/white"
+                android:textColorHint="#55FFFFFF"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:nextFocusDown="@+id/etPassword" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="#99FFFFFF"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/input_bg"
+                android:hint="Password"
+                android:textColor="@android:color/white"
+                android:textColorHint="#55FFFFFF"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:nextFocusDown="@id/btnConnect"
+                android:imeOptions="actionDone" />
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:textColor="#FF5555"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"
+                android:indeterminateTint="@color/nova_primary" />
+
+            <Button
+                android:id="@+id/btnConnect"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/btn_nova"
+                android:text="Connect"
+                android:textColor="@color/nova_bg"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:focusable="true"
+                android:nextFocusDown="@+id/btnQuickConnect" />
+
+            <!-- Quick Connect: one-tap re-login for returning users -->
+            <Button
+                android:id="@+id/btnQuickConnect"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="Continue as …"
+                android:textColor="@color/nova_primary"
+                android:textSize="13sp"
+                android:focusable="true"
+                android:visibility="gone"
+                android:nextFocusDown="@+id/btnImportM3u" />
+
+        </LinearLayout>
+
+        <!-- Right column: alternative sign-in methods -->
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_nova"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OTHER OPTIONS"
+                android:textColor="#66FFFFFF"
+                android:textSize="10sp"
+                android:letterSpacing="0.2"
+                android:layout_marginBottom="18dp" />
+
+            <!-- QR Sign-In -->
+            <LinearLayout
+                android:id="@+id/btnQrLogin"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/card_nova_selector"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="⬛"
+                    android:textSize="22sp"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QR Sign-In"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Use your phone"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Import M3U -->
+            <LinearLayout
+                android:id="@+id/btnImportM3u"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/card_nova_selector"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="📋"
+                    android:textSize="20sp"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="M3U Playlist"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Import from URL"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Xtream Codes -->
+            <LinearLayout
+                android:id="@+id/btnImportXtream"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/card_nova_selector"
+                android:padding="10dp"
+                android:focusable="true"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="⚡"
+                    android:textSize="20sp"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Xtream Codes"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Portal / IPTV API"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

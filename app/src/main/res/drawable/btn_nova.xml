@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Focused state -->
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="6dp" />
+                    <solid android:color="#00DCFF" />
+                </shape>
+            </item>
+            <!-- Glow ring -->
+            <item android:left="-4dp" android:top="-4dp" android:right="-4dp" android:bottom="-4dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <stroke android:width="2dp" android:color="#6600DCFF" />
+                    <solid android:color="#00000000" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp" />
+            <solid android:color="#0099CC" />
+        </shape>
+    </item>
+
+    <!-- Selected -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp" />
+            <solid android:color="#0099CC" />
+        </shape>
+    </item>
+
+    <!-- Default -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp" />
+            <solid android:color="#00DCFF" />
+        </shape>
+    </item>
+
+</selector>

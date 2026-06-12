@@ -1,0 +1,3 @@
+This file is a placeholder. The actual gradle-wrapper.jar must be downloaded.
+Run: gradle wrapper --gradle-version 8.4
+Or copy gradle-wrapper.jar from another project's gradle/wrapper/ folder.

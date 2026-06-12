@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF080810"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="← BACK"
+            android:textColor="#FF00DCFF"
+            android:textSize="11sp"
+            android:background="@drawable/btn_nova_outline"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginEnd="16dp"
+            android:focusable="true" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_bg"
+            android:hint="Search channels, movies, series..."
+            android:textColor="#FFFFFFFF"
+            android:textColorHint="#66FFFFFF"
+            android:textSize="14sp"
+            android:padding="10dp"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <ProgressBar
+            android:id="@+id/progressSearch"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            android:indeterminateTint="#FF00DCFF"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNoResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No results found"
+        android:textColor="#66FFFFFF"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="48dp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Live TV Results -->
+            <LinearLayout
+                android:id="@+id/sectionLive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LIVE TV"
+                    android:textColor="#FF00DCFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"
+                    android:layout_marginBottom="8dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLive"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:clipToPadding="false" />
+
+            </LinearLayout>
+
+            <!-- Movies Results -->
+            <LinearLayout
+                android:id="@+id/sectionVod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MOVIES"
+                    android:textColor="#4444FF"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"
+                    android:layout_marginBottom="8dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvVod"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:clipToPadding="false" />
+
+            </LinearLayout>
+
+            <!-- Series Results -->
+            <LinearLayout
+                android:id="@+id/sectionSeries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SERIES"
+                    android:textColor="#8844FF"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.2"
+                    android:layout_marginBottom="8dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSeries"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:clipToPadding="false" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

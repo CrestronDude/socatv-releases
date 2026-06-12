@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF080810">
+
+    <!-- Subtle animated bg glow -->
+    <View
+        android:id="@+id/bgGlow"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_nova_gradient"
+        android:alpha="0.06" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="80dp">
+
+        <!-- Icon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↑"
+            android:textColor="#FF00DCFF"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UPDATING SOCATV NOVA"
+            android:textColor="#FFFFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Version label -->
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8800DCFF"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginBottom="40dp" />
+
+        <!-- Progress bar track -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#1A00DCFF"
+            android:layout_marginBottom="16dp">
+
+            <View
+                android:id="@+id/progressFill"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#FF00DCFF" />
+
+        </FrameLayout>
+
+        <!-- Percentage + size row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:id="@+id/tvPercent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0%"
+                android:textColor="#FF00DCFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvBytes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#55FFFFFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Status message -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Downloading…"
+            android:textColor="#88FFFFFF"
+            android:textSize="13sp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</FrameLayout>

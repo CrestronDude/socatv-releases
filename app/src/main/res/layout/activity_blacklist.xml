@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF0000"
+    android:keepScreenOn="true">
+
+    <!-- Deep red pulsing overlay -->
+    <View
+        android:id="@+id/pulseOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000" />
+
+    <!-- Center content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="60dp">
+
+        <!-- Skull icon (large unicode) -->
+        <TextView
+            android:id="@+id/tvSkull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="☠"
+            android:textSize="120sp"
+            android:textColor="#FF0000"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Warning heading -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NICE TRY"
+            android:textColor="#FF0000"
+            android:textSize="52sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.3"
+            android:fontFamily="monospace"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Subheading -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="THIS DEVICE HAS BEEN BLACKLISTED"
+            android:textColor="#FFFF0000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="300dp"
+            android:layout_height="2dp"
+            android:background="#88FF0000"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Dynamic reason text -->
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your device has been flagged for unauthorized use."
+            android:textColor="#CCFFFFFF"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="40dp" />
+
+        <!-- Second skull row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☠  ☠  ☠  ☠  ☠"
+                android:textSize="28sp"
+                android:textColor="#AA330000"
+                android:letterSpacing="0.3" />
+
+        </LinearLayout>
+
+        <!-- Footer -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SocaTV Nova Security System"
+            android:textColor="#55FFFFFF"
+            android:textSize="11sp"
+            android:letterSpacing="0.2"
+            android:fontFamily="monospace" />
+
+        <TextView
+            android:id="@+id/tvDeviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#33FFFFFF"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:layout_marginTop="6dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="0dp"
+    android:background="@drawable/grid_program_selector"
+    android:focusable="true"
+    android:clickable="true">
+
+    <!-- Title + badges -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvGridProgramTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#FFFFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/badgeGridLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="●"
+            android:textColor="#FF00DCFF"
+            android:textSize="8sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/badgeGridArchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⏮"
+            android:textColor="#FFCC44"
+            android:textSize="8sp"
+            android:layout_marginStart="2dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Time -->
+    <TextView
+        android:id="@+id/tvGridProgramTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#7700DCFF"
+        android:textSize="9sp"
+        android:fontFamily="monospace"
+        android:layout_marginBottom="2dp" />
+
+    <!-- Progress bar for current program -->
+    <ProgressBar
+        android:id="@+id/progressGridProgram"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:progressTint="#FF00DCFF"
+        android:progressBackgroundTint="#2200DCFF"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Layout margins -->
+    <dimen name="margin_xs">4dp</dimen>
+    <dimen name="margin_sm">8dp</dimen>
+    <dimen name="margin_md">16dp</dimen>
+    <dimen name="margin_lg">24dp</dimen>
+    <dimen name="margin_xl">40dp</dimen>
+
+    <!-- Padding -->
+    <dimen name="padding_sm">8dp</dimen>
+    <dimen name="padding_md">16dp</dimen>
+    <dimen name="padding_lg">24dp</dimen>
+
+    <!-- Card dimensions -->
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_elevation">3dp</dimen>
+    <dimen name="card_elevation_focused">12dp</dimen>
+    <dimen name="card_stroke_width">1.5dp</dimen>
+    <dimen name="card_stroke_focused">2.5dp</dimen>
+
+    <!-- Category tile -->
+    <dimen name="category_tile_width">140dp</dimen>
+    <dimen name="category_tile_height">100dp</dimen>
+    <dimen name="category_icon_size">36dp</dimen>
+
+    <!-- Content card -->
+    <dimen name="content_card_height">140dp</dimen>
+
+    <!-- Profile avatar -->
+    <dimen name="avatar_size">90dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_xs">10sp</dimen>
+    <dimen name="text_sm">12sp</dimen>
+    <dimen name="text_md">14sp</dimen>
+    <dimen name="text_lg">18sp</dimen>
+    <dimen name="text_xl">24sp</dimen>
+    <dimen name="text_xxl">32sp</dimen>
+    <dimen name="text_logo">72sp</dimen>
+
+    <!-- Player overlays -->
+    <dimen name="epg_overlay_height">160dp</dimen>
+    <dimen name="health_overlay_width">360dp</dimen>
+    <dimen name="health_overlay_height">180dp</dimen>
+    <dimen name="binge_countdown_size">200dp</dimen>
+
+    <!-- Browse layout -->
+    <dimen name="category_panel_width">220dp</dimen>
+    <dimen name="content_grid_spacing">6dp</dimen>
+
+    <!-- Home layout -->
+    <dimen name="home_padding">24dp</dimen>
+    <dimen name="live_now_row_height">80dp</dimen>
+    <dimen name="trending_row_height">60dp</dimen>
+
+    <!-- Focus ring -->
+    <dimen name="focus_ring_width">2.5dp</dimen>
+
+    <!-- Button heights -->
+    <dimen name="btn_height_sm">36dp</dimen>
+    <dimen name="btn_height_md">48dp</dimen>
+    <dimen name="btn_height_lg">52dp</dimen>
+
+    <!-- Stream health graph -->
+    <dimen name="graph_stroke_width">2dp</dimen>
+
+    <!-- Binge countdown -->
+    <dimen name="binge_ring_stroke">10dp</dimen>
+
+    <!-- Screensaver clock -->
+    <dimen name="screensaver_clock_size">72sp</dimen>
+    <dimen name="screensaver_title_size">24sp</dimen>
+</resources>

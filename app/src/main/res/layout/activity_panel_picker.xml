@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nova_bg">
+
+    <!-- Fan art background -->
+    <ImageView
+        android:id="@+id/imgFanart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_fanart_1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/panel_overlay" />
+
+    <!-- Full-screen vertical content stack -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Top header bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:background="#88000000"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_live"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SOCA TV NOVA"
+                android:textColor="@color/nova_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--:--"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#AAFFFFFF"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/card_nova"
+                android:text="USER"
+                android:textColor="@color/nova_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Announcement banner (hidden by default, expands when shown) -->
+        <LinearLayout
+            android:id="@+id/layoutAnnouncement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EE001A33"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📣  "
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tvAnnouncement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#FF00DCFF"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Trial / license status bar (hidden by default) -->
+        <LinearLayout
+            android:id="@+id/layoutTrialBar"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="#CC000000"
+            android:paddingStart="24dp"
+            android:paddingEnd="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvTrialBarText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11sp"
+                android:letterSpacing="0.02" />
+
+            <TextView
+                android:id="@+id/tvTrialBarAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/card_nova"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:focusable="true"
+                android:clickable="true"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Panel grid -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPanels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:descendantFocusability="afterDescendants" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

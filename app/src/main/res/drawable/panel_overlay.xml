@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Semi-transparent dark scrim so fanart shows through (~65% opacity) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#A6080810" />
+        </shape>
+    </item>
+
+    <!-- Cyan glow top-left (subtle accent) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="300%"
+                android:startColor="#2200DCFF"
+                android:endColor="#00080810"
+                android:centerX="0.1"
+                android:centerY="0.1" />
+        </shape>
+    </item>
+
+    <!-- Crimson glow bottom-right (subtle accent) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="250%"
+                android:startColor="#15DC143C"
+                android:endColor="#00080810"
+                android:centerX="0.9"
+                android:centerY="0.9" />
+        </shape>
+    </item>
+
+</layer-list>

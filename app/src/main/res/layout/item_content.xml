@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="165dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/card_nova_selector"
+    android:focusable="true"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:transitionName="content_card">
+
+    <!-- Thumbnail — scaleType overridden per content type in ContentAdapter -->
+    <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF0A0A14"
+        android:scaleType="centerCrop" />
+
+    <!-- Bottom gradient for text readability -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient_bottom_scrim" />
+
+    <!-- LIVE badge (shown for live channels) -->
+    <TextView
+        android:id="@+id/badgeLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_margin="6dp"
+        android:background="#CCFF1744"
+        android:text=" LIVE "
+        android:textColor="@android:color/white"
+        android:textSize="8sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.1"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:visibility="gone" />
+
+    <!-- Rating badge (shown for VOD/Series) -->
+    <TextView
+        android:id="@+id/badgeRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:background="#AA000000"
+        android:textColor="#FFFFD600"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:visibility="gone" />
+
+    <!-- Favorites star -->
+    <TextView
+        android:id="@+id/badgeFavorite"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:layout_marginTop="26dp"
+        android:text="★"
+        android:textColor="#FFFFD600"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <!-- Trailer preview badge -->
+    <TextView
+        android:id="@+id/trailerBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_margin="6dp"
+        android:background="@drawable/badge_trailer"
+        android:text="▶ Preview"
+        android:textColor="@android:color/white"
+        android:textSize="8sp"
+        android:padding="3dp"
+        android:visibility="gone" />
+
+    <!-- Bottom info area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Color accent bar -->
+        <View
+            android:id="@+id/cardColorBar"
+            android:layout_width="24dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/nova_primary" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.1" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#AAFFFFFF"
+            android:textSize="9sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Progress bar (continue watching) -->
+    <ProgressBar
+        android:id="@+id/progressWatched"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:progressTint="@color/nova_primary"
+        android:progressBackgroundTint="#33FFFFFF"
+        android:max="100"
+        android:visibility="gone" />
+
+</FrameLayout>

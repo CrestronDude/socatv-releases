@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- Fire TV / Android TV declarations -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+
+    <application
+        android:name=".NovaApp"
+        android:allowBackup="false"
+        android:banner="@drawable/bg_nova_gradient"
+        android:icon="@drawable/ic_live"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_live"
+        android:supportsRtl="true"
+        android:theme="@style/NovaTheme"
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="35">
+
+        <!-- Splash -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/NovaTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Login -->
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Profiles -->
+        <activity
+            android:name=".ui.profiles.ProfilesActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Panel Picker (post-login main nav) -->
+        <activity
+            android:name=".ui.home.PanelPickerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask" />
+
+        <!-- Home -->
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask" />
+
+        <!-- Browse -->
+        <activity
+            android:name=".ui.browse.BrowseActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <!-- Player -->
+        <activity
+            android:name=".ui.player.PlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|layoutDirection"
+            android:launchMode="singleTop" />
+
+        <!-- Series Detail -->
+        <activity
+            android:name=".ui.browse.SeriesDetailActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Settings -->
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- EPG / TV Guide (list view) -->
+        <activity
+            android:name=".ui.epg.EpgActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <!-- Grid EPG (TiviMate-style TV Guide) -->
+        <activity
+            android:name=".ui.epg.GridEpgActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <!-- Multi-Screen Player -->
+        <activity
+            android:name=".ui.multiscreen.MultiScreenActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <!-- Channel Picker (for Multi-Screen) -->
+        <activity
+            android:name=".ui.multiscreen.ChannelPickerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Account Dashboard -->
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Global Search -->
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <!-- QR Login (phone-as-input sign-in) -->
+        <activity
+            android:name=".ui.login.QrLoginActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- M3U Playlist Import -->
+        <activity
+            android:name=".ui.login.M3uImportActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <!-- Xtream Codes / Portal Import -->
+        <activity
+            android:name=".ui.login.XtreamImportActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <!-- Paywall (trial expiry / subscription required) -->
+        <activity
+            android:name=".ui.paywall.PaywallActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- Subscription & License Details -->
+        <activity
+            android:name=".ui.subscription.SubscriptionActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- License Key Activation -->
+        <activity
+            android:name=".ui.paywall.ActivationActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <!-- Blacklist enforcement screen -->
+        <activity
+            android:name=".ui.blacklist.BlacklistActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
+
+        <!-- FileProvider for APK update delivery -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>

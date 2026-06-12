@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Film reel / play icon -->
+    <path
+        android:fillColor="#00DCFF"
+        android:pathData="M18,4l2,4H18l-2,-4H14l2,4H14l-2,-4H10l2,4H10L8,4H6C4.9,4 4,4.9 4,6v12c0,1.1 0.9,2 2,2h12c1.1,0 2,-0.9 2,-2V4H18zM10,15V9l6,3L10,15z" />
+</vector>

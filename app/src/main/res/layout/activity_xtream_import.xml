@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF080810">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_nova_gradient" />
+
+    <LinearLayout
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/card_nova"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <!-- Back + title row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="28dp">
+
+            <ImageView
+                android:id="@+id/btnXtreamBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="#FF00DCFF"
+                android:padding="8dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="@drawable/card_nova_selector"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="XTREAM CODES / PORTAL"
+                android:textColor="@color/nova_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect using your IPTV provider's server details"
+            android:textColor="#99FFFFFF"
+            android:textSize="13sp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server URL"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etXtreamServer"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_bg"
+            android:hint="http://yourprovider.com:8080"
+            android:textColor="@android:color/white"
+            android:textColorHint="#55FFFFFF"
+            android:inputType="textUri"
+            android:padding="12dp"
+            android:textSize="13sp"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/etXtreamUser" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etXtreamUser"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/input_bg"
+            android:hint="Username"
+            android:textColor="@android:color/white"
+            android:textColorHint="#55FFFFFF"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:nextFocusDown="@+id/etXtreamPass" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etXtreamPass"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/input_bg"
+            android:hint="Password"
+            android:textColor="@android:color/white"
+            android:textColorHint="#55FFFFFF"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:nextFocusDown="@+id/btnXtreamConnect"
+            android:imeOptions="actionDone" />
+
+        <TextView
+            android:id="@+id/tvXtreamStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/nova_primary"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/xtreamProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/nova_primary" />
+
+        <Button
+            android:id="@+id/btnXtreamConnect"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/btn_nova"
+            android:text="Connect"
+            android:textColor="@color/nova_bg"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</FrameLayout>

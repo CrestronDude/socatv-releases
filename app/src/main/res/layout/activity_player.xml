@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- Primary player view -->
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false" />
+
+    <!-- Split screen second player (right half when active) -->
+    <LinearLayout
+        android:id="@+id/splitContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/playerView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Retro scanlines -->
+    <View
+        android:id="@+id/retroScanlines"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/retro_scanlines"
+        android:visibility="gone"
+        android:alpha="0.3"
+        android:clickable="false" />
+
+    <!-- Buffering spinner -->
+    <ProgressBar
+        android:id="@+id/progressBuffering"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/nova_primary"
+        android:visibility="gone" />
+
+    <!-- Error text -->
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:background="#88000000"
+        android:padding="12dp"
+        android:textColor="#FF5555"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <!-- TOP overlay bar (channel info + controls) -->
+    <LinearLayout
+        android:id="@+id/overlayTop"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:background="#CC080810"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#FF00DCFF"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/card_nova_selector"
+            android:contentDescription="Back" />
+
+        <ImageView
+            android:id="@+id/ivChannelIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChannelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvNowPlaying"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#AAFFFFFF"
+                android:textSize="11sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Top right action buttons -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btnAudioTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="🎵 Audio"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSubtitles"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="CC Subs"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSplitScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="Split"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="1× Speed"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnZoom"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="Fit"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSleep"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="⏱"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="☆"
+                android:textColor="@color/nova_primary"
+                android:textSize="14sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnExternal"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="▶ Open In"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="6dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="Health"
+                android:textColor="@color/nova_primary"
+                android:textSize="10sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- BOTTOM info/seek bar (for VOD; shown as part of overlay) -->
+    <LinearLayout
+        android:id="@+id/overlayBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="#CC080810"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone">
+
+        <!-- Seek bar (VOD) -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/nova_primary"
+            android:thumbTint="@color/nova_primary"
+            android:max="1000"
+            android:visibility="gone" />
+
+        <!-- Time row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/tvPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:00"
+                android:textColor="#AAFFFFFF"
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#AAFFFFFF"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Number-key direct channel entry (shows digits as user types 0-9) -->
+    <TextView
+        android:id="@+id/tvNumberEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#DD000000"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:textColor="#FF00DCFF"
+        android:textSize="52sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:visibility="gone" />
+
+    <!-- Channel strip for quick zap (live TV) — horizontal row above EPG bar -->
+    <LinearLayout
+        android:id="@+id/channelStripContainer"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="68dp"
+        android:background="#EE080810"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChannelStrip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <!-- EPG Overlay -->
+    <com.socatv.nova.ui.player.EpgOverlayView
+        android:id="@+id/epgOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="60dp"
+        android:visibility="gone" />
+
+    <!-- Stream Health -->
+    <com.socatv.nova.ui.player.StreamHealthView
+        android:id="@+id/healthOverlay"
+        android:layout_width="340dp"
+        android:layout_height="180dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="70dp"
+        android:visibility="gone" />
+
+    <!-- Binge countdown -->
+    <com.socatv.nova.ui.player.BingeCountdownView
+        android:id="@+id/bingeCountdown"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="60dp"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <!-- Dummy view to hold focus so D-pad doesn't wander -->
+    <View
+        android:id="@+id/focusDummy"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:focusable="true" />
+
+</FrameLayout>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF080810">
+
+    <!-- Header bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#CC080810"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#FF00DCFF"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/card_nova_selector"
+            android:contentDescription="Back"
+            android:nextFocusRight="@id/btnPickLeft" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="MULTI-SCREEN"
+            android:textColor="@color/nova_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT slot → CHANGE to pick channel"
+            android:textColor="#66FFFFFF"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <!-- Two player slots -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <!-- Left slot -->
+        <FrameLayout
+            android:id="@+id/slotLeft"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/slot_active"
+            android:focusable="false"
+            android:descendantFocusability="afterDescendants">
+
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/playerViewLeft"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false" />
+
+            <!-- Empty-slot add button (visible when no channel) -->
+            <LinearLayout
+                android:id="@+id/emptyLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="#4400DCFF"
+                    android:textSize="64sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Screen 1"
+                    android:textColor="#6600DCFF"
+                    android:textSize="14sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- Bottom info bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_gravity="bottom"
+                android:background="#CC040410"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/ivLogoLeft"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_live"
+                    android:layout_marginEnd="8dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvChannelLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Screen 1"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/tvStatusLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No channel selected"
+                        android:textColor="#AA00DCFF"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnPickLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/btn_nova_outline"
+                    android:text="▶ Add Stream"
+                    android:textColor="@color/nova_primary"
+                    android:textSize="11sp"
+                    android:focusable="true"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:nextFocusRight="@id/btnPickRight"
+                    android:nextFocusLeft="@id/btnBack"
+                    android:nextFocusUp="@id/btnBack" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Right slot -->
+        <FrameLayout
+            android:id="@+id/slotRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/slot_inactive"
+            android:focusable="false"
+            android:descendantFocusability="afterDescendants">
+
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/playerViewRight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false" />
+
+            <!-- Empty-slot add button (visible when no channel) -->
+            <LinearLayout
+                android:id="@+id/emptyRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="#4400DCFF"
+                    android:textSize="64sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Screen 2"
+                    android:textColor="#6600DCFF"
+                    android:textSize="14sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- Bottom info bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_gravity="bottom"
+                android:background="#CC040410"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <ImageView
+                    android:id="@+id/ivLogoRight"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_live"
+                    android:layout_marginEnd="8dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvChannelRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Screen 2"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/tvStatusRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No channel selected"
+                        android:textColor="#AA00DCFF"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnPickRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/btn_nova_outline"
+                    android:text="▶ Add Stream"
+                    android:textColor="@color/nova_primary"
+                    android:textSize="11sp"
+                    android:focusable="true"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:nextFocusLeft="@id/btnPickLeft"
+                    android:nextFocusUp="@id/btnBack" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

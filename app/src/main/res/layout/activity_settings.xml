@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nova_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="24dp">
+
+        <!-- Left column -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SETTINGS"
+                android:textColor="@color/nova_primary"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.2"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Panel navigation -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="PANEL" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <Button android:id="@+id/btnSwitchPanel" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="24dp"
+                android:background="@drawable/btn_nova" android:text="Switch Panel"
+                android:textColor="@color/nova_bg" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/switchSubtitles" />
+
+            <!-- Subtitles -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="SUBTITLES" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSubtitles"
+                android:layout_width="match_parent" android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="Enable Subtitles" android:textColor="#CCFFFFFF" />
+
+            <EditText android:id="@+id/etSubtitleLang" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="12dp"
+                android:background="@drawable/input_bg" android:hint="Language code (en, fr...)"
+                android:textColor="@android:color/white" android:textColorHint="#66FFFFFF"
+                android:padding="10dp" android:textSize="13sp"
+                android:nextFocusDown="@id/btnSaveSubtitle"
+                android:nextFocusUp="@id/switchSubtitles" />
+
+            <Button android:id="@+id/btnSaveSubtitle" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="24dp"
+                android:background="@drawable/btn_nova" android:text="Save Subtitle Settings"
+                android:textColor="@color/nova_bg" android:textSize="13sp" android:focusable="true"
+                android:nextFocusUp="@id/etSubtitleLang"
+                android:nextFocusDown="@id/etM3uUrl"
+                android:nextFocusRight="@id/switchGovee" />
+
+            <!-- M3U / Playlist Import -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="PLAYLISTS" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <EditText android:id="@+id/etM3uUrl" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/input_bg"
+                android:hint="M3U / M3U8 URL (http://...)"
+                android:textColor="@android:color/white" android:textColorHint="#66FFFFFF"
+                android:padding="10dp" android:textSize="12sp" android:inputType="textUri"
+                android:nextFocusUp="@id/btnSaveSubtitle"
+                android:nextFocusDown="@id/btnImportM3u"
+                android:nextFocusRight="@id/switchTimeTheme" />
+
+            <Button android:id="@+id/btnImportM3u" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova" android:text="Import Playlist"
+                android:textColor="@color/nova_bg" android:textSize="13sp" android:focusable="true"
+                android:nextFocusUp="@id/etM3uUrl"
+                android:nextFocusDown="@id/btnClearM3u"
+                android:nextFocusRight="@id/switchBinge" />
+
+            <Button android:id="@+id/btnClearM3u" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_nova_outline" android:text="Clear Imported Channels"
+                android:textColor="#FFCC44" android:textSize="13sp" android:focusable="true"
+                android:nextFocusUp="@id/btnImportM3u"
+                android:nextFocusRight="@id/btnManageProfiles" />
+
+        </LinearLayout>
+
+        <!-- Right column -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Govee -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="SMART HOME (GOVEE)" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp"
+                android:layout_marginTop="46dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchGovee"
+                android:layout_width="match_parent" android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="Sync Govee Lights" android:textColor="#CCFFFFFF"
+                android:focusable="true"
+                android:nextFocusLeft="@id/btnSaveSubtitle"
+                android:nextFocusDown="@id/etGoveeIp" />
+
+            <EditText android:id="@+id/etGoveeIp" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="12dp"
+                android:background="@drawable/input_bg" android:hint="Govee Light IP (e.g. 192.168.1.100)"
+                android:textColor="@android:color/white" android:textColorHint="#66FFFFFF"
+                android:padding="10dp" android:textSize="13sp" android:inputType="textUri"
+                android:nextFocusDown="@id/btnSaveGovee"
+                android:nextFocusUp="@id/switchGovee" />
+
+            <Button android:id="@+id/btnSaveGovee" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_nova" android:text="Save Govee Settings"
+                android:textColor="@color/nova_bg" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/switchTimeTheme"
+                android:nextFocusUp="@id/etGoveeIp" />
+
+            <!-- Theme -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="THEME &amp; DISPLAY" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchTimeTheme"
+                android:layout_width="match_parent" android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="Time-of-Day Theme" android:textColor="#CCFFFFFF"
+                android:focusable="true"
+                android:nextFocusLeft="@id/etM3uUrl"
+                android:nextFocusDown="@id/switchBinge" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchBinge"
+                android:layout_width="match_parent" android:layout_height="40dp"
+                android:layout_marginBottom="16dp"
+                android:text="Binge Countdown" android:textColor="#CCFFFFFF"
+                android:focusable="true"
+                android:nextFocusLeft="@id/btnImportM3u"
+                android:nextFocusDown="@id/tvAccountStatus" />
+
+            <!-- Account info -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="ACCOUNT" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <TextView android:id="@+id/tvAccountStatus" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#CCFFFFFF" android:textSize="13sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView android:id="@+id/tvExpiry" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#CCFFFFFF" android:textSize="13sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Action buttons -->
+            <!-- Server profiles -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="SERVERS" android:textColor="#66FFFFFF" android:textSize="11sp"
+                android:letterSpacing="0.2" android:layout_marginBottom="8dp" />
+
+            <Button android:id="@+id/btnManageServers" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova_outline" android:text="Manage Server Profiles"
+                android:textColor="@color/nova_primary" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/btnManageProfiles" />
+
+            <Button android:id="@+id/btnManageProfiles" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova_outline" android:text="Manage Profiles"
+                android:textColor="@color/nova_primary" android:textSize="13sp" android:focusable="true"
+                android:nextFocusUp="@id/btnManageServers"
+                android:nextFocusDown="@id/btnSetParentalPin" />
+
+            <Button android:id="@+id/btnSetParentalPin" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova_outline" android:text="Set Parental PIN"
+                android:textColor="@color/nova_primary" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/btnClearHistory"
+                android:nextFocusUp="@id/btnManageProfiles" />
+
+            <Button android:id="@+id/btnClearHistory" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova_outline" android:text="Clear Watch History"
+                android:textColor="#FFCC44" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/btnLogout"
+                android:nextFocusUp="@id/btnSetParentalPin" />
+
+            <Button android:id="@+id/btnLogout" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_nova_outline" android:text="Log Out"
+                android:textColor="#FF5555" android:textSize="13sp" android:focusable="true"
+                android:nextFocusDown="@id/btnResetApp"
+                android:nextFocusUp="@id/btnClearHistory" />
+
+            <Button android:id="@+id/btnResetApp" android:layout_width="match_parent"
+                android:layout_height="44dp" android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_nova_outline" android:text="Reset App"
+                android:textColor="#FF2222" android:textSize="13sp" android:focusable="true"
+                android:nextFocusUp="@id/btnLogout" />
+
+            <TextView android:id="@+id/tvAppVersion" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#44FFFFFF" android:textSize="11sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

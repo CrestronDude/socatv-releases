@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF080810">
+
+    <!-- Header bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="#1A00DCFF">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="← GUIDE"
+            android:textColor="#FF00DCFF"
+            android:textSize="12sp"
+            android:background="@drawable/btn_nova_outline"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TV GUIDE"
+            android:textColor="#FF00DCFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:letterSpacing="0.15" />
+
+        <TextView
+            android:id="@+id/tvCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:background="#2200DCFF"
+            android:padding="6dp" />
+    </LinearLayout>
+
+    <!-- Loading -->
+    <ProgressBar
+        android:id="@+id/progressLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="#FF00DCFF"
+        android:visibility="gone" />
+
+    <!-- Main grid area: channel col + content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- Left column: channel names (fixed width) -->
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Spacer that aligns with the time header -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="#1400DCFF" />
+
+            <!-- Channel list (scrolls in sync with grid) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChannels"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+
+        <!-- Right: time header + scrollable program rows -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Time header (fixed, scroll-synced) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTimeHeader"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="#1400DCFF"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false" />
+
+            <!-- Grid rows -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGrid"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

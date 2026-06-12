@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/etPin"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/input_bg"
+        android:hint="Enter PIN"
+        android:textColor="@android:color/white"
+        android:textColorHint="#66FFFFFF"
+        android:inputType="numberPassword"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:maxLength="4"
+        android:padding="10dp" />
+
+</LinearLayout>

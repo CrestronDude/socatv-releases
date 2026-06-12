@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:background="@drawable/epg_channel_selector">
+
+    <TextView
+        android:id="@+id/tvEpgChannelNum"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:textColor="#66FFFFFF"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:layout_marginEnd="4dp" />
+
+    <ImageView
+        android:id="@+id/ivEpgChannelLogo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_live"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/tvEpgChannelName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#FFFFFFFF"
+        android:textSize="13sp"
+        android:singleLine="true"
+        android:ellipsize="end" />
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base dark background -->
+    <item>
+        <color android:color="#080810" />
+    </item>
+
+    <!-- Animated gradient overlay (top-left glow) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="400%"
+                android:startColor="#1A00DCFF"
+                android:endColor="#00080810"
+                android:centerX="0.1"
+                android:centerY="0.15" />
+        </shape>
+    </item>
+
+    <!-- Bottom-right crimson glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="300%"
+                android:startColor="#0ADC143C"
+                android:endColor="#00080810"
+                android:centerX="0.9"
+                android:centerY="0.85" />
+        </shape>
+    </item>
+
+</layer-list>

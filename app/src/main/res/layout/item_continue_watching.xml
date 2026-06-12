@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="110dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/card_nova_selector"
+    android:focusable="true"
+    android:clickable="true"
+    android:elevation="4dp">
+
+    <ImageView
+        android:id="@+id/ivCwThumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient_bottom_scrim" />
+
+    <TextView
+        android:id="@+id/tvCwTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="7dp"
+        android:paddingBottom="14dp"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/tvCwSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:background="#CC080810"
+        android:textColor="#FF00DCFF"
+        android:textSize="8sp"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:layout_margin="4dp" />
+
+    <ProgressBar
+        android:id="@+id/progressCw"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:progressTint="@color/nova_primary"
+        android:progressBackgroundTint="#33FFFFFF"
+        android:max="100" />
+
+</FrameLayout>

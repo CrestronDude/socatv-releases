@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nova_bg">
+
+    <!-- Fanart background -->
+    <ImageView
+        android:id="@+id/ivFanartBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.35" />
+
+    <!-- Dark scrim -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC080810" />
+
+    <!-- Screensaver overlay -->
+    <com.socatv.nova.ui.home.AmbientScreensaverView
+        android:id="@+id/screensaverView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Konami retro overlay -->
+    <View
+        android:id="@+id/retroOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/retro_scanlines"
+        android:visibility="gone"
+        android:alpha="0.4" />
+
+    <!-- Main content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <View
+                android:id="@+id/viewAccentBar"
+                android:layout_width="4dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/nova_primary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Good Evening"
+                    android:textColor="@color/nova_primary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Main Profile"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-light" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnMood"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/btn_nova_outline"
+                android:text="Mood"
+                android:textColor="@color/nova_primary"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:focusable="true" />
+
+            <Button
+                android:id="@+id/btnSurprise"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/btn_nova"
+                android:text="Surprise Me"
+                android:textColor="@color/nova_bg"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+        <!-- Category tiles -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="20dp"
+            android:clipToPadding="false"
+            android:paddingEnd="16dp" />
+
+        <!-- Continue Watching section -->
+        <LinearLayout
+            android:id="@+id/sectionContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue Watching"
+                android:textColor="#99FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvContinueWatching"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:clipToPadding="false"
+                android:paddingEnd="8dp" />
+
+        </LinearLayout>
+
+        <!-- What's Live Right Now -->
+        <LinearLayout
+            android:id="@+id/sectionLiveNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What's Live Right Now"
+                android:textColor="#99FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLiveNow"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+
+        <!-- Trending ticker -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trending This Week"
+                android:textColor="#99FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTrending"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Mood picker overlay -->
+    <com.socatv.nova.ui.home.MoodPickerView
+        android:id="@+id/moodPickerView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+</FrameLayout>

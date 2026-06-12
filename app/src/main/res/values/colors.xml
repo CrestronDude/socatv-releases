@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Nova palette -->
+    <color name="nova_primary">#00DCFF</color>
+    <color name="nova_primary_dark">#0099CC</color>
+    <color name="nova_primary_alpha">#4400DCFF</color>
+    <color name="nova_primary_glow">#8800DCFF</color>
+
+    <!-- Backgrounds -->
+    <color name="nova_bg">#080810</color>
+    <color name="nova_bg_card">#141422</color>
+    <color name="nova_bg_overlay">#CC080810</color>
+    <color name="nova_bg_panel">#0D141422</color>
+
+    <!-- Text -->
+    <color name="nova_text_primary">#FFFFFF</color>
+    <color name="nova_text_secondary">#99FFFFFF</color>
+    <color name="nova_text_tertiary">#66FFFFFF</color>
+    <color name="nova_text_disabled">#44FFFFFF</color>
+
+    <!-- Accent states -->
+    <color name="nova_focused">#2200DCFF</color>
+    <color name="nova_focused_stroke">#00DCFF</color>
+    <color name="nova_pressed">#4400DCFF</color>
+
+    <!-- Time-of-day colors -->
+    <color name="time_dawn">#FF9F43</color>
+    <color name="time_morning">#FFD700</color>
+    <color name="time_afternoon">#00DCFF</color>
+    <color name="time_evening">#FF8C00</color>
+    <color name="time_night">#DC143C</color>
+    <color name="time_midnight">#8A2BE2</color>
+
+    <!-- Status -->
+    <color name="nova_error">#FF5555</color>
+    <color name="nova_success">#7CFC00</color>
+    <color name="nova_warning">#FFCC44</color>
+    <color name="nova_live_badge">#DC143C</color>
+
+    <!-- Card glassmorphism -->
+    <color name="card_bg">#1AFFFFFF</color>
+    <color name="card_border">#33FFFFFF</color>
+    <color name="card_focused_bg">#2200DCFF</color>
+    <color name="card_focused_border">#00DCFF</color>
+
+    <!-- Graph colors -->
+    <color name="graph_bitrate">#00DCFF</color>
+    <color name="graph_buffer">#7CFC00</color>
+    <color name="graph_fps">#FFD700</color>
+
+    <!-- Elevation shadows -->
+    <color name="shadow_color">#80000000</color>
+
+    <!-- Leanback / Android TV -->
+    <color name="lb_basic_fade_color">#00000000</color>
+</resources>

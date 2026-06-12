@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF080810">
+
+    <!-- Gradient overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_nova_gradient" />
+
+    <!-- Centered card -->
+    <LinearLayout
+        android:layout_width="560dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/card_nova"
+        android:padding="48dp">
+
+        <!-- Crown / star icon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="★"
+            android:textColor="#FFD700"
+            android:textSize="48sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Headline -->
+        <TextView
+            android:id="@+id/tvPaywallHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Free Trial Has Ended"
+            android:textColor="#FFFFFFFF"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Subtext -->
+        <TextView
+            android:id="@+id/tvPaywallSubtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get full access to all channels, movies, series and premium features."
+            android:textColor="#AAFFFFFF"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginBottom="32dp" />
+
+        <!-- What you get -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="28dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📺"
+                    android:textSize="24sp"
+                    android:gravity="center" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Live TV"
+                    android:textColor="#BBFFFFFF"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎬"
+                    android:textSize="24sp"
+                    android:gravity="center" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Movies"
+                    android:textColor="#BBFFFFFF"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📡"
+                    android:textSize="24sp"
+                    android:gravity="center" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EPG Guide"
+                    android:textColor="#BBFFFFFF"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📱"
+                    android:textSize="24sp"
+                    android:gravity="center" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Multi-Screen"
+                    android:textColor="#BBFFFFFF"
+                    android:textSize="11sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Price badge -->
+        <TextView
+            android:id="@+id/tvPaywallPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="$10 / year"
+            android:textColor="#FFD700"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Less than $1/month — cancel anytime"
+            android:textColor="#66FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="28dp" />
+
+        <!-- CTA button -->
+        <Button
+            android:id="@+id/btnPaywallBuy"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/btn_nova"
+            android:text="Get Access — $10 / year"
+            android:textColor="@color/nova_bg"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:focusable="true"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Already have a key -->
+        <Button
+            android:id="@+id/btnPaywallActivate"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@drawable/btn_nova_outline"
+            android:text="I already have a license key"
+            android:textColor="@color/nova_primary"
+            android:textSize="13sp"
+            android:focusable="true"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnPaywallRestore"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:text="Restore previous license"
+            android:textColor="#66FFFFFF"
+            android:textSize="12sp"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</FrameLayout>

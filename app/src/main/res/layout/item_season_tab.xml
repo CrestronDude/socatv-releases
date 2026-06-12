@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:background="@drawable/season_tab_selector">
+
+    <TextView
+        android:id="@+id/tvSeasonNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minWidth="44dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="S1"
+        android:textColor="#AAAAAA"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+</FrameLayout>

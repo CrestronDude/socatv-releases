@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF080810">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_nova_gradient" />
+
+    <LinearLayout
+        android:layout_width="480dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/card_nova"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <!-- Back + title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="28dp">
+
+            <ImageView
+                android:id="@+id/btnActivationBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="#FF00DCFF"
+                android:padding="8dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="@drawable/card_nova_selector"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="ACTIVATE LICENSE"
+                android:textColor="@color/nova_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the license key from your purchase email"
+            android:textColor="#99FFFFFF"
+            android:textSize="13sp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="License Key"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etLicenseKey"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/input_bg"
+            android:hint="SOCANOVA-YYYYMMDD-XXXXXXXXXXXXXXXX"
+            android:textColor="@android:color/white"
+            android:textColorHint="#44FFFFFF"
+            android:inputType="textCapCharacters|textNoSuggestions"
+            android:padding="12dp"
+            android:textSize="13sp"
+            android:fontFamily="monospace"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:nextFocusDown="@+id/btnActivateLicense" />
+
+        <TextView
+            android:id="@+id/tvActivationResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnActivateLicense"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/btn_nova"
+            android:text="Activate"
+            android:textColor="@color/nova_bg"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Your key was emailed after purchase.\nFormat: SOCANOVA-YYYYMMDD-XXXXXXXXXXXXXXXX"
+            android:textColor="#44FFFFFF"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+</FrameLayout>
