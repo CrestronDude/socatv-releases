@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SocaTV Nova — Admin</title>
+<style>
+:root{
+  --bg:#080810;--bg2:#0d0d1a;--bg3:#141426;--bg4:#1a1a2e;
+  --cyan:#00DCFF;--green:#00DC6E;--red:#FF5555;--gold:#FFD700;--orange:#FF9900;--purple:#AA55FF;
+  --text:#FFFFFF;--text2:#AAAACC;--text3:#666688;
+  --border:rgba(0,220,255,.12);--border2:rgba(255,255,255,.07);
+  --card:rgba(20,20,38,.85);
+  --sidebar:200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;min-height:100vh;display:flex}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:var(--sidebar);min-height:100vh;background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;
+}
+#sidebar .brand{padding:20px 16px 16px;border-bottom:1px solid var(--border)}
+#sidebar .brand h1{color:var(--cyan);font-size:13px;font-weight:700;letter-spacing:3px}
+#sidebar .brand .sub{color:var(--text3);font-size:10px;margin-top:2px}
+#sidebar nav{flex:1;overflow-y:auto;padding:12px 0}
+.nav-section{color:var(--text3);font-size:9px;letter-spacing:2px;padding:12px 16px 4px;text-transform:uppercase}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;
+  color:var(--text2);font-size:12px;transition:all .15s;position:relative;
+  border-left:2px solid transparent;
+}
+.nav-item:hover{background:rgba(0,220,255,.05);color:var(--text)}
+.nav-item.active{background:rgba(0,220,255,.08);color:var(--cyan);border-left-color:var(--cyan)}
+.nav-item .icon{font-size:14px;width:20px;text-align:center}
+.nav-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;
+}
+.nav-badge.green{background:var(--green);color:#080810}
+.nav-badge.gold{background:var(--gold);color:#080810}
+#sidebar .footer{padding:12px 16px;border-top:1px solid var(--border)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar);flex:1;min-height:100vh;display:flex;flex-direction:column}
+#topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 24px;height:54px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:90;
+}
+#topbar h2{font-size:15px;font-weight:600;color:var(--text);flex:1}
+#topbar .chip{
+  background:var(--bg3);border:1px solid var(--border);border-radius:20px;
+  padding:4px 12px;font-size:11px;color:var(--text2);cursor:pointer;transition:.15s;
+}
+#topbar .chip:hover{border-color:var(--cyan);color:var(--cyan)}
+#topbar .chip.green{background:rgba(0,220,110,.1);border-color:rgba(0,220,110,.3);color:var(--green)}
+#content{padding:24px;flex:1}
+
+/* ── CARDS / STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:16px;transition:.2s;cursor:default;
+}
+.stat-card:hover{border-color:rgba(0,220,255,.3);transform:translateY(-1px)}
+.stat-card .val{font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-card .lbl{font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase}
+.stat-card.cyan .val{color:var(--cyan)}
+.stat-card.green .val{color:var(--green)}
+.stat-card.red .val{color:var(--red)}
+.stat-card.gold .val{color:var(--gold)}
+.stat-card.purple .val{color:var(--purple)}
+.stat-card.orange .val{color:var(--orange)}
+.stat-card .delta{font-size:10px;color:var(--text3);margin-top:4px}
+
+/* ── TABLE ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.card-header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;border-bottom:1px solid var(--border);
+}
+.card-header h3{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);flex:1}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:10px 14px;text-align:left;font-size:10px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;background:var(--bg3);border-bottom:1px solid var(--border2);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--border2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,220,255,.03)}
+tr.selected td{background:rgba(0,220,255,.06)}
+td.mono{font-family:monospace;font-size:11px}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.3px}
+.badge-trial{background:rgba(0,220,255,.15);color:var(--cyan)}
+.badge-licensed{background:rgba(0,220,110,.15);color:var(--green)}
+.badge-expired{background:rgba(255,85,85,.15);color:var(--red)}
+.badge-revoked{background:rgba(100,100,120,.2);color:#888}
+.badge-new{background:rgba(170,85,255,.15);color:var(--purple)}
+.badge-active{background:rgba(0,220,110,.15);color:var(--green)}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border:none;border-radius:7px;font-size:12px;font-weight:600;
+  cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.btn:hover{opacity:.85;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--cyan);color:#080810}
+.btn-success{background:var(--green);color:#080810}
+.btn-danger{background:var(--red);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-ghost{background:transparent;color:var(--text3);padding:5px 8px}
+.btn-ghost:hover{color:var(--cyan)}
+.btn-sm{padding:4px 9px;font-size:11px;border-radius:5px}
+.btn-gold{background:var(--gold);color:#080810}
+
+/* ── FILTERS ── */
+.filter-bar{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border2);flex-wrap:wrap}
+.filter-tab{
+  padding:4px 12px;border-radius:20px;font-size:11px;cursor:pointer;
+  color:var(--text3);border:1px solid transparent;transition:.15s;
+}
+.filter-tab:hover{color:var(--text);border-color:var(--border)}
+.filter-tab.active{background:rgba(0,220,255,.1);color:var(--cyan);border-color:rgba(0,220,255,.3)}
+.search-box{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:7px;
+  color:var(--text);font-size:12px;padding:6px 11px;outline:none;width:220px;
+}
+.search-box:focus{border-color:var(--cyan)}
+
+/* ── FORMS ── */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:7px;color:var(--text);font-size:12px;padding:9px 12px;outline:none;transition:.15s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--cyan)}
+.form-textarea{resize:vertical;min-height:80px;font-family:monospace}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.toggle-switch{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2)}
+.toggle-switch:last-child{border-bottom:none}
+.toggle-label{color:var(--text2);font-size:12px}
+.toggle-sub{color:var(--text3);font-size:10px;margin-top:2px}
+.switch{position:relative;width:40px;height:22px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.switch-slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:22px;cursor:pointer;transition:.25s}
+.switch-slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s}
+input:checked+.switch-slider{background:var(--cyan)}
+input:checked+.switch-slider:before{transform:translateX(18px)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:28px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;position:relative}
+.modal h2{font-size:16px;margin-bottom:18px;color:var(--cyan)}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer}
+.modal-close:hover{color:var(--red)}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}
+
+/* ── DRAWER ── */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500}
+.drawer{
+  position:fixed;right:0;top:0;bottom:0;width:480px;max-width:95vw;
+  background:var(--bg3);border-left:1px solid var(--border);
+  z-index:501;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;
+  transform:translateX(100%);transition:.25s;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-header{display:flex;align-items:center;gap:12px}
+.drawer-header h2{flex:1;font-size:15px}
+
+/* ── ACTIVITY FEED ── */
+.activity-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.activity-body{flex:1}
+.activity-type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.activity-meta{color:var(--text3);font-size:10px;margin-top:2px}
+
+/* ── ANALYTICS ── */
+.chart-bar-wrap{padding:8px 0}
+.chart-label{font-size:10px;color:var(--text3);margin-bottom:3px}
+.chart-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.chart-bar-bg{flex:1;height:18px;background:var(--bg4);border-radius:4px;overflow:hidden}
+.chart-bar{height:100%;border-radius:4px;transition:.6s width;display:flex;align-items:center;padding-left:6px;font-size:9px;color:rgba(0,0,0,.8);font-weight:700}
+.chart-val{font-size:11px;color:var(--text2);min-width:30px;text-align:right}
+
+/* ── MISC ── */
+.page-header{margin-bottom:20px}
+.page-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
+.page-sub{color:var(--text3);font-size:12px}
+.empty{padding:48px;text-align:center;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.divider{border:none;border-top:1px solid var(--border2);margin:16px 0}
+.info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border2);font-size:12px}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--text3)}
+.info-val{color:var(--text);font-weight:500;font-family:monospace;font-size:11px}
+.key-box{background:var(--bg4);border:1px solid rgba(0,220,255,.2);border-radius:7px;padding:12px 14px;font-family:monospace;font-size:13px;color:var(--cyan);cursor:pointer;word-break:break-all;letter-spacing:.5px}
+.key-box:hover{border-color:var(--cyan)}
+.toaster{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:slideIn .25s;max-width:320px}
+.toast.ok{border-color:rgba(0,220,110,.4);color:var(--green)}
+.toast.err{border-color:rgba(255,85,85,.4);color:var(--red)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.section-divider{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;padding:16px 0 8px;border-bottom:1px solid var(--border2);margin-bottom:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.checkbox-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;padding:3px 0}
+.checkbox-wrap input{accent-color:var(--cyan);width:14px;height:14px}
+.json-editor{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:14px;font-family:monospace;font-size:11px;color:#90C0FF;min-height:200px;outline:none;resize:vertical;width:100%}
+.json-editor:focus{border-color:var(--cyan)}
+.flag-country{font-size:16px;margin-right:4px}
+.revenue-display{font-size:36px;font-weight:700;color:var(--gold);text-align:center;padding:16px 0}
+input[type=checkbox]{accent-color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="brand">
+    <h1>SOCATV NOVA</h1>
+    <div class="sub">Admin Control Panel</div>
+  </div>
+  <nav>
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard')" id="nav-dashboard">
+      <span class="icon">🏠</span> Dashboard
+    </div>
+
+    <div class="nav-section">Management</div>
+    <div class="nav-item" onclick="nav('devices')" id="nav-devices">
+      <span class="icon">📱</span> Devices
+      <span class="nav-badge" id="badge-devices">0</span>
+    </div>
+    <div class="nav-item" onclick="nav('licenses')" id="nav-licenses">
+      <span class="icon">🔑</span> Licenses
+      <span class="nav-badge green" id="badge-licenses">0</span>
+    </div>
+    <div class="nav-item" onclick="nav('groups')" id="nav-groups">
+      <span class="icon">👥</span> Groups
+    </div>
+
+    <div class="nav-section">Security</div>
+    <div class="nav-item" onclick="nav('blacklist')" id="nav-blacklist">
+      <span class="icon">🚫</span> Blacklist
+    </div>
+    <div class="nav-section">Control</div>
+    <div class="nav-item" onclick="nav('releases')" id="nav-releases">
+      <span class="icon">🚀</span> Releases
+    </div>
+    <div class="nav-item" onclick="nav('config')" id="nav-config">
+      <span class="icon">⚙️</span> Remote Config
+    </div>
+    <div class="nav-item" onclick="nav('broadcast')" id="nav-broadcast">
+      <span class="icon">📣</span> Broadcast
+    </div>
+
+    <div class="nav-section">Insights</div>
+    <div class="nav-item" onclick="nav('analytics')" id="nav-analytics">
+      <span class="icon">📊</span> Analytics
+    </div>
+    <div class="nav-item" onclick="nav('activity')" id="nav-activity">
+      <span class="icon">📋</span> Activity Log
+    </div>
+
+    <div class="nav-section">System</div>
+    <div class="nav-item" onclick="nav('settings')" id="nav-settings">
+      <span class="icon">🛠️</span> Settings
+    </div>
+  </nav>
+  <div class="footer">
+    <span class="status-dot"></span>
+    <span style="color:var(--text3);font-size:11px">Server running</span>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <h2 id="topbar-title">Dashboard</h2>
+    <div class="chip" onclick="refreshAll()" title="Refresh data">↻ Refresh</div>
+    <div class="chip green" id="chip-live">● Live</div>
+    <div class="chip" id="chip-time">--:--</div>
+  </div>
+  <div id="content"></div>
+</div>
+
+<!-- DRAWER (device detail) -->
+<div class="drawer-overlay" id="drawerOverlay" style="display:none" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<!-- TOASTER -->
+<div class="toaster" id="toaster"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════════════════════
+const S = {
+  page:'dashboard', devices:[], licenses:[], groups:[], activity:[],
+  config:{}, stats:{}, settings:{},
+  deviceFilter:'all', licFilter:'all',
+  deviceSearch:'', licSearch:'',
+  selectedDevices: new Set()
+};
+
+// ════════════════════════════════════════════════════════════════════════════
+//  API
+// ════════════════════════════════════════════════════════════════════════════
+async function api(method, path, body){
+  const opt = {method, headers:{'Content-Type':'application/json'}};
+  if(body) opt.body = JSON.stringify(body);
+  const r = await fetch(path, opt);
+  return r.json();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════════════════════════════════
+function toast(msg, type='ok'){
+  const t = document.getElementById('toaster');
+  const d = document.createElement('div');
+  d.className=`toast ${type}`;
+  d.textContent = (type==='ok'?'✓ ':'✕ ') + msg;
+  t.appendChild(d);
+  setTimeout(()=>d.remove(), 3500);
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════════════════════════════════════
+async function nav(page){
+  S.page = page;
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  const el = document.getElementById('nav-'+page);
+  if(el) el.classList.add('active');
+  document.getElementById('topbar-title').textContent = {
+    dashboard:'Dashboard', devices:'Device Registry', licenses:'License Management',
+    groups:'Groups & Categories', blacklist:'Blacklist', releases:'Release Manager',
+    config:'Remote Config', broadcast:'Broadcast',
+    analytics:'Analytics', activity:'Activity Log', settings:'Settings'
+  }[page]||page;
+  await loadPage(page);
+}
+
+async function loadPage(page){
+  switch(page){
+    case 'dashboard':  await fetchStats(); renderDashboard(); break;
+    case 'devices':    await fetchDevices(); renderDevices(); break;
+    case 'licenses':   await fetchLicenses(); await fetchDevices(); renderLicenses(); break;
+    case 'groups':     await fetchGroups(); await fetchDevices(); renderGroups(); break;
+    case 'blacklist':  await fetchBlacklist(); renderBlacklist(); break;
+    case 'releases':   await fetchReleases(); renderReleases(); break;
+    case 'config':     await fetchConfig(); renderConfig(); break;
+    case 'broadcast':  await fetchConfig(); renderBroadcast(); break;
+    case 'analytics':  await fetchStats(); await fetchDevices(); renderAnalytics(); break;
+    case 'activity':   await fetchActivity(); renderActivity(); break;
+    case 'settings':   await fetchSettings(); renderSettings(); break;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  FETCH
+// ════════════════════════════════════════════════════════════════════════════
+async function fetchStats()    { S.stats    = await api('GET','/api/admin/stats'); updateBadges(); }
+async function fetchDevices()  { S.devices  = await api('GET','/api/admin/devices'); updateBadges(); }
+async function fetchLicenses() { S.licenses = await api('GET','/api/admin/licenses'); }
+async function fetchGroups()   { S.groups   = await api('GET','/api/admin/groups'); }
+async function fetchConfig()   { S.config   = await api('GET','/api/admin/config'); }
+async function fetchActivity() { S.activity = await api('GET','/api/admin/activity?limit=300'); }
+async function fetchSettings() { S.settings = await api('GET','/api/admin/settings'); }
+
+function updateBadges(){
+  const d = S.stats;
+  if(d.totalDevices!==undefined) document.getElementById('badge-devices').textContent = d.totalDevices;
+  if(d.activeLicenses!==undefined) document.getElementById('badge-licenses').textContent = d.activeLicenses;
+}
+
+async function refreshAll(){
+  await loadPage(S.page);
+  toast('Data refreshed');
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  DASHBOARD
+// ════════════════════════════════════════════════════════════════════════════
+function renderDashboard(){
+  const d = S.stats;
+  set('content', `
+    <div class="page-header">
+      <div class="page-title">God Dashboard</div>
+      <div class="page-sub">Complete overview of all SocaTV Nova activity</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card cyan"><div class="val">${d.totalDevices||0}</div><div class="lbl">Total Devices</div><div class="delta">↑ ${d.newToday||0} today</div></div>
+      <div class="stat-card green"><div class="val">${d.licensedDevices||0}</div><div class="lbl">Licensed</div><div class="delta">${pct(d.licensedDevices,d.totalDevices)} conversion</div></div>
+      <div class="stat-card cyan"><div class="val">${d.trialDevices||0}</div><div class="lbl">On Trial</div><div class="delta">Active users</div></div>
+      <div class="stat-card red"><div class="val">${d.expiredDevices||0}</div><div class="lbl">Expired</div><div class="delta">Need to pay</div></div>
+      <div class="stat-card gold"><div class="val">$${(d.revenue||0).toFixed(0)}</div><div class="lbl">Revenue</div><div class="delta">All time</div></div>
+      <div class="stat-card purple"><div class="val">${d.activeToday||0}</div><div class="lbl">Active Today</div><div class="delta">${d.activeThisWeek||0} this week</div></div>
+      <div class="stat-card orange"><div class="val">${d.newThisWeek||0}</div><div class="lbl">New This Week</div><div class="delta">${d.countries||0} countries</div></div>
+      <div class="stat-card cyan"><div class="val">${d.activeLicenses||0}</div><div class="lbl">Active Licenses</div><div class="delta">${d.unusedLicenses||0} unused</div></div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-header"><h3>🎯 Quick Actions</h3></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-primary" onclick="showGenModal()">🔑 Generate License Key</button>
+          <button class="btn btn-outline" onclick="nav('devices')">📱 View All Devices</button>
+          <button class="btn btn-outline" onclick="nav('broadcast')">📣 Send Announcement</button>
+          <button class="btn btn-gold" onclick="showRevenueModal()">💰 Record Payment</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>💰 Revenue Tracker</h3></div>
+        <div style="padding:16px">
+          <div class="revenue-display">$${(d.revenue||0).toFixed(2)}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+            <div style="background:var(--bg4);border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--green)">$${((d.licensedDevices||0)*10).toFixed(0)}</div>
+              <div style="font-size:10px;color:var(--text3)">Potential ARR</div>
+            </div>
+            <div style="background:var(--bg4);border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:18px;font-weight:700;color:var(--cyan)">${pct(d.licensedDevices,d.totalDevices)}</div>
+              <div style="font-size:10px;color:var(--text3)">Conversion Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>⚡ Recent Activity</h3><button class="btn btn-ghost btn-sm" onclick="nav('activity')">View All →</button></div>
+      <div style="padding:0 16px 8px">
+        ${(d.recentActivity||[]).map(a => activityRow(a)).join('')||'<div class="empty"><div class="empty-icon">📭</div>No activity yet — install the app on a device!</div>'}
+      </div>
+    </div>
+  `);
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  DEVICES
+// ════════════════════════════════════════════════════════════════════════════
+function renderDevices(){
+  const filters = ['all','trial','licensed','expired','revoked','active_today','new_today'];
+  let devs = S.devices;
+  if(S.deviceFilter==='trial')       devs = devs.filter(d=>d.status==='trial');
+  if(S.deviceFilter==='licensed')    devs = devs.filter(d=>d.status==='licensed');
+  if(S.deviceFilter==='expired')     devs = devs.filter(d=>d.status==='expired');
+  if(S.deviceFilter==='revoked')     devs = devs.filter(d=>d.status==='revoked');
+  if(S.deviceFilter==='active_today')devs = devs.filter(d=>Date.now()-d.lastSeen<86400000);
+  if(S.deviceFilter==='new_today')   devs = devs.filter(d=>Date.now()-d.firstSeen<86400000);
+  if(S.deviceSearch) {
+    const q = S.deviceSearch.toLowerCase();
+    devs = devs.filter(d=>(d.deviceId+d.model+d.country+d.city+d.lastIp+(d.notes||'')).toLowerCase().includes(q));
+  }
+
+  set('content', `
+    <div class="page-header">
+      <div class="page-title">Device Registry <span style="color:var(--text3);font-size:14px;font-weight:400">${devs.length} devices</span></div>
+      <div class="page-sub">Every app install that has ever checked in, grouped and manageable</div>
+    </div>
+
+    <div class="card">
+      <div class="filter-bar">
+        ${filters.map(f=>`<div class="filter-tab${S.deviceFilter===f?' active':''}" onclick="S.deviceFilter='${f}';renderDevices()">${{all:'All',trial:'Trial',licensed:'Licensed',expired:'Expired',revoked:'Revoked',active_today:'Active Today',new_today:'New Today'}[f]}</div>`).join('')}
+        <input class="search-box" placeholder="Search devices…" value="${S.deviceSearch}" oninput="S.deviceSearch=this.value;renderDevices()" style="margin-left:auto">
+        <button class="btn btn-outline btn-sm" onclick="selectAllDevices()">Select All</button>
+        <button class="btn btn-danger btn-sm" id="bulkActBtn" style="display:none" onclick="showBulkModal()">Bulk Action (${S.selectedDevices.size})</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th><input type="checkbox" id="checkAll" onchange="toggleAll(this)"></th>
+            <th>Device ID</th><th>Model</th><th>Location</th>
+            <th>Status</th><th>Trial Day</th><th>App Ver</th>
+            <th>Last Seen</th><th>Check-ins</th><th>Actions</th>
+          </tr></thead>
+          <tbody>
+            ${devs.length===0?`<tr><td colspan="10" class="empty">No devices found</td></tr>`:''}
+            ${devs.map(d=>`
+              <tr class="${S.selectedDevices.has(d.deviceId)?'selected':''}" id="row-${d.deviceId}">
+                <td><input type="checkbox" ${S.selectedDevices.has(d.deviceId)?'checked':''} onchange="toggleDevice('${d.deviceId}',this)"></td>
+                <td class="mono" style="color:var(--cyan)">${d.deviceId.slice(0,12)}…</td>
+                <td>${d.model||'—'}</td>
+                <td>${geoFlag(d.country)} ${d.city||d.country||'—'}</td>
+                <td><span class="badge badge-${statusClass(d.status)}">${d.status||'unknown'}</span></td>
+                <td>${trialDay(d)}</td>
+                <td>${d.appVersionCode||'—'}</td>
+                <td style="color:var(--text3)">${relTime(d.lastSeen)}</td>
+                <td style="color:var(--text3)">${d.checkinCount||1}</td>
+                <td>
+                  <button class="btn btn-ghost btn-sm" onclick="openDeviceDrawer('${d.deviceId}')" title="View & edit">👁</button>
+                  <button class="btn btn-ghost btn-sm" onclick="quickExtend('${d.deviceId}')" title="Extend trial">⏰</button>
+                  <button class="btn btn-ghost btn-sm" onclick="quickGenKey('${d.deviceId}','${d.deviceId}')" title="Generate license">🔑</button>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="quickBlock('${d.deviceId}','${d.macAddress||''}','${d.lastIp||''}')" title="Block device">☠</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `);
+  document.getElementById('bulkActBtn') && (document.getElementById('bulkActBtn').style.display = S.selectedDevices.size > 0 ? '' : 'none');
+}
+
+function toggleDevice(id, cb){
+  if(cb.checked) S.selectedDevices.add(id); else S.selectedDevices.delete(id);
+  const btn = document.getElementById('bulkActBtn');
+  if(btn){ btn.textContent = `Bulk Action (${S.selectedDevices.size})`; btn.style.display = S.selectedDevices.size>0?'':'none'; }
+  const row = document.getElementById('row-'+id);
+  if(row) row.classList.toggle('selected', S.selectedDevices.has(id));
+}
+function toggleAll(cb){ S.devices.forEach(d=>{ if(cb.checked) S.selectedDevices.add(d.deviceId); else S.selectedDevices.delete(d.deviceId); }); renderDevices(); }
+function selectAllDevices(){ S.devices.forEach(d=>S.selectedDevices.add(d.deviceId)); renderDevices(); }
+
+async function openDeviceDrawer(id){
+  const data = await api('GET', `/api/admin/devices/${id}`);
+  const d = data;
+  const lic = d.licenseKey ? (S.licenses.find(l=>l.key===d.licenseKey)||{}) : {};
+  setDrawer(`
+    <div class="drawer-header">
+      <div>
+        <h2 style="color:var(--cyan)">${d.model||'Unknown Device'}</h2>
+        <div style="color:var(--text3);font-size:11px;margin-top:3px">${d.deviceId}</div>
+      </div>
+      <button class="btn btn-ghost" onclick="closeDrawer()">✕</button>
+    </div>
+    <span class="badge badge-${statusClass(d.status)}" style="font-size:12px;padding:4px 12px">${d.status||'unknown'}</span>
+
+    <div class="section-divider">Device Info</div>
+    ${infoRows([
+      ['Model', d.model||'—'], ['Android', d.androidVersion||'—'],
+      ['App Version', d.appVersionCode||'—'], ['IP Address', d.lastIp||'—'],
+      ['Country', `${geoFlag(d.country)} ${d.country||'—'}`],
+      ['City / Region', `${d.city||''}${d.region?', '+d.region:''}`||'—'],
+      ['ISP', d.isp||'—'],
+      ['First Seen', dateStr(d.firstSeen)], ['Last Seen', dateStr(d.lastSeen)],
+      ['Check-ins', d.checkinCount||1], ['Paywall Hits', d.paywallHits||0],
+    ])}
+
+    <div class="section-divider">Trial & License</div>
+    ${infoRows([
+      ['Trial Start', dateStr(d.trialStartTs)],
+      ['Trial Days (base)', d.customTrialDays||S.config.trialDays||10],
+      ['Trial Progress', trialDay(d)],
+      ['License Key', d.licenseKey||'None'],
+      ['License Expiry', lic.expiryDate ? `${lic.expiryDate} (${new Date(lic.expiryTs)>new Date()?'<span style=color:var(--green)>ACTIVE</span>':'<span style=color:var(--red)>EXPIRED</span>'})` : 'N/A'],
+    ])}
+
+    <div class="section-divider">Admin Actions</div>
+
+    <div class="form-group">
+      <label class="form-label">Extend Trial (days to add)</label>
+      <div style="display:flex;gap:8px">
+        <input class="form-input" id="extDays" type="number" value="7" min="1" max="365" style="flex:1">
+        <button class="btn btn-primary" onclick="extendTrialDrawer('${id}')">Extend</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Generate License Key (expiry)</label>
+      <div style="display:flex;gap:8px">
+        <input class="form-input" id="keyExpiry" type="text" placeholder="YYYYMMDD" value="${defaultExpiry()}" style="flex:1">
+        <button class="btn btn-success" onclick="genKeyForDevice('${id}')">Generate & Assign</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Force Status Override</label>
+      <div style="display:flex;gap:8px">
+        <select class="form-select" id="forceStatus">
+          <option value="">— no override —</option>
+          <option value="trial">Trial</option>
+          <option value="licensed">Licensed</option>
+          <option value="expired">Expired</option>
+          <option value="revoked">Revoked</option>
+        </select>
+        <button class="btn btn-outline" onclick="forceStatus('${id}')">Apply</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Admin Message (shown in app)</label>
+      <input class="form-input" id="adminMsg" value="${d.adminMessage||''}" placeholder="e.g. Thank you for being a subscriber!">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Assign to Group</label>
+      <select class="form-select" id="devGroup">
+        <option value="">— no group —</option>
+        ${S.groups.map(g=>`<option value="${g.id}" ${d.groupId===g.id?'selected':''}>${g.name}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="devNotes">${d.notes||''}</textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%" onclick="saveDevice('${id}')">Save Changes</button>
+    <button class="btn btn-danger" style="width:100%;margin-top:8px" onclick="deleteDevice('${id}')">Delete Device Record</button>
+
+    <div class="section-divider">Event History (${(d.history||[]).length})</div>
+    <div>
+      ${(d.history||[]).slice(0,20).map(e=>activityRow(e)).join('')||'<div style="color:var(--text3);font-size:11px">No events</div>'}
+    </div>
+  `);
+  openDrawer();
+}
+
+async function extendTrialDrawer(id){
+  const days = parseInt(document.getElementById('extDays')?.value)||7;
+  await api('POST',`/api/admin/devices/${id}/extend-trial`,{extraDays:days});
+  toast(`Trial extended by ${days} days`);
+  openDeviceDrawer(id);
+}
+async function genKeyForDevice(id){
+  const exp = document.getElementById('keyExpiry')?.value||defaultExpiry();
+  const r = await api('POST','/api/admin/licenses/generate',{expiryDate:exp,count:1,assignDeviceId:id});
+  if(r.ok){ toast('License key generated and assigned!'); openDeviceDrawer(id); }
+  else toast(r.error||'Error','err');
+}
+async function forceStatus(id){
+  const status = document.getElementById('forceStatus')?.value;
+  if(!status) return;
+  await api('PUT',`/api/admin/devices/${id}`,{forcedStatus:status});
+  toast(`Status set to: ${status}`);
+  openDeviceDrawer(id);
+}
+async function saveDevice(id){
+  const body = {
+    notes:       document.getElementById('devNotes')?.value,
+    groupId:     document.getElementById('devGroup')?.value,
+    adminMessage:document.getElementById('adminMsg')?.value
+  };
+  await api('PUT',`/api/admin/devices/${id}`,body);
+  toast('Device saved');
+  await fetchDevices();
+}
+async function deleteDevice(id){
+  if(!confirm(`Delete device ${id}? This cannot be undone.`)) return;
+  await api('DELETE',`/api/admin/devices/${id}`);
+  closeDrawer();
+  toast('Device deleted');
+  await fetchDevices();
+  renderDevices();
+}
+async function quickExtend(id){
+  await api('POST',`/api/admin/devices/${id}/extend-trial`,{extraDays:7});
+  toast('Trial extended 7 days');
+}
+async function quickBlock(deviceId, mac, ip){
+  const reason = prompt('Block reason (shown on device skull screen):','Unauthorized use detected') || 'Unauthorized use detected';
+  if(!confirm(`Permanently block this device?\n\nThey will see a full-screen skull warning and be denied ALL access forever.`)) return;
+  const tasks = [api('POST','/api/admin/blacklist',{type:'deviceId',  value:deviceId, reason})];
+  if(mac && mac!=='unknown' && mac!=='') tasks.push(api('POST','/api/admin/blacklist',{type:'macAddress',value:mac,reason}));
+  if(ip  && ip!=='')                    tasks.push(api('POST','/api/admin/blacklist',{type:'ipAddress', value:ip,  reason}));
+  await Promise.all(tasks);
+  toast(`☠ Blocked — skull screen on next launch`,'err');
+  await fetchDevices(); renderDevices();
+}
+async function quickGenKey(id){
+  const r = await api('POST','/api/admin/licenses/generate',{expiryDate:defaultExpiry(),count:1,assignDeviceId:id});
+  if(r.ok){ toast('Key generated: '+r.keys[0].key); }
+}
+
+function showBulkModal(){
+  const ids = [...S.selectedDevices];
+  showModal(`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Bulk Action — ${ids.length} devices</h2>
+    <div class="form-group">
+      <label class="form-label">Action</label>
+      <select class="form-select" id="bulkAction">
+        <option value="extend_trial">Extend Trial</option>
+        <option value="set_status">Set Status</option>
+        <option value="set_group">Set Group</option>
+        <option value="delete">Delete Records</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Value (days / status / group ID)</label>
+      <input class="form-input" id="bulkValue" value="7" placeholder="e.g. 7 (days) or licensed">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="doBulk()">Apply to ${ids.length} Devices</button>
+    </div>
+  `);
+}
+async function doBulk(){
+  const action = document.getElementById('bulkAction')?.value;
+  const value  = document.getElementById('bulkValue')?.value;
+  const r = await api('POST','/api/admin/devices/bulk',{ids:[...S.selectedDevices],action,value});
+  closeModal();
+  S.selectedDevices.clear();
+  toast(`Applied to ${r.affected} devices`);
+  await fetchDevices(); renderDevices();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  LICENSES
+// ════════════════════════════════════════════════════════════════════════════
+function renderLicenses(){
+  let lics = S.licenses;
+  const now = Date.now();
+  if(S.licFilter==='active')   lics = lics.filter(l=>!l.revoked&&l.expiryTs>now);
+  if(S.licFilter==='expired')  lics = lics.filter(l=>!l.revoked&&l.expiryTs<now);
+  if(S.licFilter==='unused')   lics = lics.filter(l=>!l.revoked&&!l.deviceId);
+  if(S.licFilter==='revoked')  lics = lics.filter(l=>l.revoked);
+  if(S.licFilter==='assigned') lics = lics.filter(l=>!l.revoked&&l.deviceId);
+  if(S.licSearch){
+    const q=S.licSearch.toLowerCase();
+    lics = lics.filter(l=>(l.key+l.deviceId+l.notes+l.expiryDate).toLowerCase().includes(q));
+  }
+  const stats = { total:S.licenses.length, active:S.licenses.filter(l=>!l.revoked&&l.expiryTs>now).length,
+    expired:S.licenses.filter(l=>!l.revoked&&l.expiryTs<now).length,
+    unused:S.licenses.filter(l=>!l.revoked&&!l.deviceId).length,
+    revoked:S.licenses.filter(l=>l.revoked).length };
+
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">License Management</div>
+      <div class="page-sub">Generate, extend, revoke, and monitor all license keys</div>
+    </div>
+
+    <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:20px">
+      <div class="stat-card cyan"><div class="val">${stats.total}</div><div class="lbl">Total Keys</div></div>
+      <div class="stat-card green"><div class="val">${stats.active}</div><div class="lbl">Active</div></div>
+      <div class="stat-card red"><div class="val">${stats.expired}</div><div class="lbl">Expired</div></div>
+      <div class="stat-card orange"><div class="val">${stats.unused}</div><div class="lbl">Unused</div></div>
+      <div class="stat-card"><div class="val" style="color:var(--text3)">${stats.revoked}</div><div class="lbl">Revoked</div></div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-header"><h3>🔑 Generate Keys</h3></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Expiry Date</label>
+              <input class="form-input" id="genExpiry" value="${defaultExpiry()}" placeholder="YYYYMMDD">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Count (1–500)</label>
+              <input class="form-input" id="genCount" type="number" value="1" min="1" max="500">
+            </div>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Notes (optional)</label>
+            <input class="form-input" id="genNotes" placeholder="e.g. Promo batch June 2026">
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" onclick="setGenExp(1)">+1yr</button>
+            <button class="btn btn-outline btn-sm" onclick="setGenExp(2)">+2yr</button>
+            <button class="btn btn-outline btn-sm" onclick="setGenExp(3)">+3yr</button>
+            <button class="btn btn-primary" style="flex:1" onclick="doGenKeys()">Generate</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>🔍 Validate Key</h3></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">License Key</label>
+            <input class="form-input" id="valKey" placeholder="SOCANOVA-YYYYMMDD-XXXXXXXXXXXXXXXX" style="font-family:monospace">
+          </div>
+          <button class="btn btn-outline" onclick="doValidate()">Validate</button>
+          <div id="valResult" style="display:none;padding:10px;border-radius:7px;font-size:12px;font-family:monospace"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="filter-bar">
+        ${['all','active','expired','unused','assigned','revoked'].map(f=>`<div class="filter-tab${S.licFilter===f?' active':''}" onclick="S.licFilter='${f}';renderLicenses()">${f.charAt(0).toUpperCase()+f.slice(1)}</div>`).join('')}
+        <input class="search-box" placeholder="Search keys…" value="${S.licSearch}" oninput="S.licSearch=this.value;renderLicenses()" style="margin-left:auto">
+        <button class="btn btn-outline btn-sm" onclick="exportLicenses()">Export CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>License Key</th><th>Expiry</th><th>Device</th><th>Status</th><th>Notes</th><th>Created</th><th>Actions</th></tr></thead>
+          <tbody>
+            ${lics.length===0?`<tr><td colspan="7" class="empty">No keys found</td></tr>`:''}
+            ${lics.map(l=>`
+              <tr>
+                <td>
+                  <div class="key-box" style="font-size:11px;padding:6px 10px" onclick="copyText('${l.key}')" title="Click to copy">${l.key}</div>
+                </td>
+                <td style="color:${new Date(l.expiryTs)>new Date()?'var(--green)':'var(--red)'}">${l.expiryDate||'—'}</td>
+                <td class="mono" style="color:var(--text3)">${l.deviceId?l.deviceId.slice(0,10)+'…':'Unused'}</td>
+                <td>${licBadge(l)}</td>
+                <td style="color:var(--text3)">${l.notes||'—'}</td>
+                <td style="color:var(--text3)">${relTime(l.createdAt)}</td>
+                <td>
+                  <button class="btn btn-ghost btn-sm" onclick="copyText('${l.key}')" title="Copy">📋</button>
+                  <button class="btn btn-ghost btn-sm" onclick="showExtendModal('${encodeURIComponent(l.key)}')" title="Extend">⏰</button>
+                  <button class="btn btn-ghost btn-sm" onclick="doRevoke('${encodeURIComponent(l.key)}')" title="Revoke" style="color:var(--red)">🚫</button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `);
+}
+
+function setGenExp(years){ const d=new Date(); d.setFullYear(d.getFullYear()+years); document.getElementById('genExpiry').value=fmtDate(d); }
+
+async function doGenKeys(){
+  const exp   = document.getElementById('genExpiry')?.value||defaultExpiry();
+  const count = parseInt(document.getElementById('genCount')?.value)||1;
+  const notes = document.getElementById('genNotes')?.value||'';
+  const r = await api('POST','/api/admin/licenses/generate',{expiryDate:exp,count,notes});
+  if(r.ok){
+    if(count===1){
+      showModal(`<button class="modal-close" onclick="closeModal()">✕</button><h2>Key Generated</h2>
+        <p style="color:var(--text3);margin-bottom:12px">Expiry: ${exp}</p>
+        <div class="key-box" onclick="copyText('${r.keys[0].key}')">${r.keys[0].key}<div style="font-size:10px;color:var(--text3);margin-top:4px">Click to copy</div></div>
+        <div class="modal-actions"><button class="btn btn-primary" onclick="copyText('${r.keys[0].key}');closeModal()">Copy & Close</button></div>`);
+    } else {
+      const csv = r.keys.map(k=>k.key).join('\n');
+      const blob = new Blob([csv],{type:'text/plain'});
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a'); a.href=url; a.download=`licenses_${exp}.txt`; a.click();
+      toast(`${count} keys generated and downloaded`);
+    }
+    await fetchLicenses(); renderLicenses();
+  } else toast(r.error||'Error','err');
+}
+
+async function doValidate(){
+  const key = document.getElementById('valKey')?.value?.trim();
+  if(!key) return;
+  const r = await api('POST','/api/admin/licenses/validate',{key});
+  const el = document.getElementById('valResult');
+  el.style.display = 'block';
+  if(r.valid){ el.style.background='rgba(0,220,110,.1)'; el.style.color='var(--green)'; el.textContent=`✓ VALID — expires ${new Date(r.expiry).toDateString()}`; }
+  else if(r.revoked){ el.style.background='rgba(255,85,85,.1)'; el.style.color='var(--red)'; el.textContent='✕ REVOKED'; }
+  else { el.style.background='rgba(255,85,85,.1)'; el.style.color='var(--red)'; el.textContent=`✕ INVALID — reason: ${r.reason}`; }
+}
+
+function showExtendModal(encodedKey){
+  const key = decodeURIComponent(encodedKey);
+  showModal(`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Extend License</h2>
+    <p style="color:var(--text3);font-size:11px;margin-bottom:16px;font-family:monospace">${key}</p>
+    <div class="form-group">
+      <label class="form-label">New Expiry Date (YYYYMMDD)</label>
+      <input class="form-input" id="newExpiry" value="${defaultExpiry()}" style="font-family:monospace">
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn btn-outline btn-sm" onclick="setNewExp(1)">+1yr</button>
+      <button class="btn btn-outline btn-sm" onclick="setNewExp(2)">+2yr</button>
+      <button class="btn btn-outline btn-sm" onclick="setNewExp(3)">+3yr</button>
+    </div>
+    <label class="checkbox-wrap" style="margin-bottom:16px">
+      <input type="checkbox" id="revokeOld" checked> Revoke old key
+    </label>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="doExtend('${encodedKey}')">Extend</button>
+    </div>
+  `);
+}
+function setNewExp(years){ const d=new Date(); d.setFullYear(d.getFullYear()+years); document.getElementById('newExpiry').value=fmtDate(d); }
+
+async function doExtend(encodedKey){
+  const nd = document.getElementById('newExpiry')?.value;
+  const ro = document.getElementById('revokeOld')?.checked;
+  const r = await api('PUT',`/api/admin/licenses/${encodedKey}/extend`,{newExpiryDate:nd,revokeOld:ro});
+  closeModal();
+  if(r.ok){ toast('License extended! New key copied.'); copyText(r.newKey); }
+  else toast(r.error||'Error','err');
+  await fetchLicenses(); renderLicenses();
+}
+async function doRevoke(encodedKey){
+  if(!confirm('Revoke this license key?')) return;
+  await api('PUT',`/api/admin/licenses/${encodedKey}/revoke`,{});
+  toast('License revoked');
+  await fetchLicenses(); renderLicenses();
+}
+
+function exportLicenses(){
+  const rows = [['Key','Expiry','Device','Status','Notes','Created'],...S.licenses.map(l=>
+    [l.key,l.expiryDate,l.deviceId||'',l.revoked?'revoked':new Date(l.expiryTs)>new Date()?'active':'expired',l.notes||'',new Date(l.createdAt).toISOString()])];
+  const csv = rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const url  = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='licenses.csv'; a.click();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  GROUPS
+// ════════════════════════════════════════════════════════════════════════════
+function renderGroups(){
+  // Auto-groups: by country, by status, by app version
+  const byCountry = {}; const byStatus = {}; const byVersion = {};
+  S.devices.forEach(d=>{
+    const c=d.country||'Unknown'; byCountry[c]=(byCountry[c]||[]).concat(d);
+    byStatus[d.status||'unknown']=(byStatus[d.status||'unknown']||[]).concat(d);
+    const v='v'+(d.appVersionCode||'?'); byVersion[v]=(byVersion[v]||[]).concat(d);
+  });
+
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Groups & Categories</div>
+      <div class="page-sub">Organize devices by location, status, or custom groups</div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-header"><h3>➕ Create Custom Group</h3></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div class="form-group" style="margin:0"><label class="form-label">Name</label><input class="form-input" id="grpName" placeholder="VIP Subscribers"></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Color</label><input type="color" id="grpColor" value="#00DCFF" style="width:100%;height:38px;background:transparent;border:none;cursor:pointer"></div>
+          <div class="form-group" style="margin:0"><label class="form-label">Description</label><input class="form-input" id="grpDesc" placeholder="Optional description"></div>
+          <button class="btn btn-primary" onclick="createGroup()">Create Group</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>👥 Custom Groups (${S.groups.length})</h3></div>
+        <div style="padding:8px 16px">
+          ${S.groups.length===0?'<div class="empty">No custom groups yet</div>':S.groups.map(g=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border2)">
+              <div style="width:12px;height:12px;border-radius:50%;background:${g.color}"></div>
+              <div style="flex:1"><div style="font-size:13px">${g.name}</div><div style="font-size:10px;color:var(--text3)">${S.devices.filter(d=>d.groupId===g.id).length} devices · ${g.description||'No description'}</div></div>
+              <button class="btn btn-ghost btn-sm" onclick="deleteGroup('${g.id}')">✕</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="card-header"><h3>🌍 By Country</h3></div>
+        <div style="padding:8px 0">
+          ${Object.entries(byCountry).sort((a,b)=>b[1].length-a[1].length).slice(0,15).map(([c,devs])=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:7px 16px;border-bottom:1px solid var(--border2)">
+              <div style="font-size:16px">${geoFlag(c)}</div>
+              <div style="flex:1;font-size:12px">${c}</div>
+              <div style="font-size:11px;color:var(--cyan)">${devs.length}</div>
+              <div style="width:60px;height:4px;background:var(--bg4);border-radius:2px">
+                <div style="width:${Math.round(devs.length/S.devices.length*100)}%;height:100%;background:var(--cyan);border-radius:2px"></div>
+              </div>
+            </div>
+          `).join('')||'<div class="empty">No data</div>'}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>📊 By Status</h3></div>
+        <div style="padding:8px 0">
+          ${Object.entries(byStatus).map(([s,devs])=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border2)">
+              <span class="badge badge-${statusClass(s)}">${s}</span>
+              <div style="flex:1"></div>
+              <div style="font-size:13px;font-weight:700;color:var(--text)">${devs.length}</div>
+              <div style="font-size:10px;color:var(--text3)">${pct(devs.length,S.devices.length)}</div>
+            </div>
+          `).join('')||'<div class="empty">No data</div>'}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>📱 By App Version</h3></div>
+        <div style="padding:8px 0">
+          ${Object.entries(byVersion).sort((a,b)=>b[1].length-a[1].length).map(([v,devs])=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--border2)">
+              <div style="font-size:12px;color:var(--cyan)">${v}</div>
+              <div style="flex:1"></div>
+              <div style="font-size:13px;font-weight:700">${devs.length}</div>
+              <div style="font-size:10px;color:var(--text3)">${pct(devs.length,S.devices.length)}</div>
+            </div>
+          `).join('')||'<div class="empty">No data</div>'}
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+async function createGroup(){
+  const r = await api('POST','/api/admin/groups',{name:document.getElementById('grpName')?.value,color:document.getElementById('grpColor')?.value,description:document.getElementById('grpDesc')?.value});
+  if(r.ok){ toast('Group created'); await fetchGroups(); renderGroups(); }
+}
+async function deleteGroup(id){
+  if(!confirm('Delete this group?')) return;
+  await api('DELETE',`/api/admin/groups/${id}`);
+  toast('Group deleted');
+  await fetchGroups(); await fetchDevices(); renderGroups();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  BLACKLIST
+// ════════════════════════════════════════════════════════════════════════════
+async function fetchBlacklist(){
+  try { S.blacklist = await api('GET','/api/admin/blacklist'); } catch(_){ S.blacklist={}; }
+}
+
+function renderBlacklist(){
+  const bl = S.blacklist || {};
+  const entries = bl.entries || [];
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">☠ Blacklist</div>
+      <div class="page-sub">Blocked devices are shown the skull screen and permanently denied access to all content and updates</div>
+    </div>
+
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <div class="card" style="border:1px solid rgba(255,85,85,.3)">
+          <div class="card-header" style="background:rgba(255,85,85,.08)">
+            <h3>🚫 Block a Device</h3>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:11px;color:var(--text3);background:rgba(255,85,85,.06);padding:10px;border-radius:6px;line-height:1.7">
+              Blocked devices are shown a full-screen skull warning and can never access the app, content, or updates.
+              Block by Device ID, Android ID, MAC address, or IP address.
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Block Type</label>
+              <select class="form-input" id="blType">
+                <option value="deviceId">Device ID (UUID)</option>
+                <option value="androidId">Android ID</option>
+                <option value="macAddress">MAC Address</option>
+                <option value="ipAddress">IP Address</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Value to Block</label>
+              <input class="form-input" id="blValue" placeholder="Paste device ID, MAC, or IP…">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Reason (shown on device screen)</label>
+              <input class="form-input" id="blReason" placeholder="e.g. Unauthorized redistribution detected">
+            </div>
+            <button class="btn btn-danger" style="width:100%" onclick="addBlacklist()">☠ Block This Device</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>📊 Blacklist Stats</h3></div>
+          <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            ${[
+              ['Device IDs',  (bl.deviceIds||[]).length],
+              ['Android IDs', (bl.androidIds||[]).length],
+              ['MAC Addresses',(bl.macAddresses||[]).length],
+              ['IP Addresses', (bl.ipAddresses||[]).length]
+            ].map(([l,v])=>`<div style="background:rgba(255,85,85,.06);border:1px solid rgba(255,85,85,.15);border-radius:6px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:700;color:var(--red)">${v}</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:3px">${l}</div>
+            </div>`).join('')
+            }
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Blocked Entries</h3>
+            <span style="font-size:11px;color:var(--red)">${entries.length} blocked</span>
+          </div>
+          <div style="padding:0;max-height:500px;overflow-y:auto">
+            ${entries.length===0
+              ? '<div class="empty" style="padding:20px">No devices blocked yet</div>'
+              : entries.map(e=>`
+                <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border2)">
+                  <div style="background:rgba(255,85,85,.15);border-radius:4px;padding:2px 8px;font-size:10px;color:var(--red);white-space:nowrap;margin-top:2px">
+                    ${e.type==='deviceId'?'DEV':e.type==='androidId'?'AID':e.type==='macAddress'?'MAC':'IP'}
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:11px;color:var(--text);font-family:monospace;word-break:break-all">${e.value}</div>
+                    ${e.reason?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${e.reason}</div>`:''}
+                    <div style="font-size:10px;color:var(--text3);margin-top:2px">${new Date(e.addedAt).toLocaleString()}</div>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--green);white-space:nowrap"
+                    onclick="removeBlacklist('${e.type}','${e.value}')">Unblock</button>
+                </div>
+              `).join('')
+            }
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>⚡ Quick Block from Device List</h3></div>
+          <div style="padding:16px;font-size:11px;color:var(--text2);line-height:1.8">
+            Go to <b style="color:var(--cyan)">Device Registry</b>, open any device, and use the
+            <b style="color:var(--red)">☠ Block Device</b> button to instantly blacklist by Device ID + MAC + IP simultaneously.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `);
+}
+
+async function addBlacklist(){
+  const type   = document.getElementById('blType')?.value;
+  const value  = document.getElementById('blValue')?.value?.trim();
+  const reason = document.getElementById('blReason')?.value?.trim();
+  if (!value) { toast('Enter a value to block','err'); return; }
+  const r = await api('POST','/api/admin/blacklist',{ type, value, reason });
+  if (r.ok) { toast(`☠ Blocked ${value}`,'err'); await fetchBlacklist(); renderBlacklist(); }
+  else toast(r.error||'Error','err');
+}
+
+async function removeBlacklist(type, value){
+  if (!confirm(`Unblock ${value}?`)) return;
+  const r = await api('DELETE','/api/admin/blacklist',{ type, value });
+  if (r.ok) { toast(`Unblocked ${value}`); await fetchBlacklist(); renderBlacklist(); }
+  else toast(r.error||'Error','err');
+}
+
+//  RELEASE MANAGER
+// ════════════════════════════════════════════════════════════════════════════
+async function fetchReleases(){
+  try { S.releases = await api('GET','/api/admin/releases'); } catch(_){ S.releases=[]; }
+}
+
+function renderReleases(){
+  const releases = S.releases || [];
+  const latest = releases[0];
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Release Manager</div>
+      <div class="page-sub">Every installed app checks GitHub on launch and auto-prompts to update</div>
+    </div>
+
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <div class="card" style="border:1px solid rgba(0,220,110,.3)">
+          <div class="card-header" style="background:rgba(0,220,110,.08)">
+            <h3>🚀 Publish New Release</h3>
+          </div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:11px;color:var(--text3);background:rgba(0,220,255,.06);padding:10px 14px;border-radius:6px;line-height:1.7">
+              <b style="color:var(--cyan)">How it works:</b> Upload your signed APK → set the version number →
+              click Publish. The system creates a GitHub Release, uploads the APK, updates the remote config,
+              and pushes to the Gist. All installed apps receive the update notification on their next launch.
+            </div>
+
+            <div style="display:flex;gap:12px">
+              <div class="form-group" style="margin:0;flex:1">
+                <label class="form-label">Version Code <span style="color:var(--red)">*</span></label>
+                <input class="form-input" id="relCode" type="number" placeholder="e.g. 2" min="1">
+              </div>
+              <div class="form-group" style="margin:0;flex:2">
+                <label class="form-label">Version Name <span style="color:var(--red)">*</span></label>
+                <input class="form-input" id="relName" placeholder="e.g. 1.1.0">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin:0">
+              <label class="form-label">APK File <span style="color:var(--red)">*</span></label>
+              <input type="file" id="relApk" accept=".apk"
+                style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px;color:var(--text);width:100%;cursor:pointer">
+            </div>
+
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Release Notes (optional)</label>
+              <textarea class="form-input" id="relNotes" rows="3" placeholder="What's new in this version…" style="resize:vertical"></textarea>
+            </div>
+
+            <div class="toggle-switch">
+              <div><div class="toggle-label">Force Update</div><div class="toggle-sub">Users cannot skip — must update before entering the app</div></div>
+              <label class="switch"><input type="checkbox" id="relForce"><span class="switch-slider"></span></label>
+            </div>
+
+            <div id="relProgress" style="display:none">
+              <div style="background:var(--bg3);border-radius:6px;overflow:hidden;height:6px;margin-bottom:6px">
+                <div id="relProgressBar" style="height:100%;background:var(--green);width:0%;transition:width .3s"></div>
+              </div>
+              <div id="relProgressLabel" style="font-size:11px;color:var(--text3)">Uploading…</div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%;height:48px;font-size:14px" onclick="publishRelease()">
+              🚀 Build &amp; Publish Release
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <div class="card">
+          <div class="card-header"><h3>📦 Latest Release</h3></div>
+          <div style="padding:16px">
+            ${latest ? `
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+                <div style="background:rgba(0,220,110,.12);border:1px solid rgba(0,220,110,.3);border-radius:20px;padding:4px 14px;font-size:12px;color:var(--green);font-weight:700">${latest.tag}</div>
+                <div style="font-size:13px;color:var(--text)">${latest.name}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">Published</span><span>${new Date(latest.publishedAt).toLocaleDateString()}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">Downloads</span><span style="color:var(--cyan)">${latest.downloadCount.toLocaleString()}</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text3)">APK</span><a href="${latest.apkUrl}" target="_blank" style="color:var(--cyan)">Download</a></div>
+              </div>
+            ` : '<div class="empty">No releases yet</div>'}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>📋 Release History</h3></div>
+          <div style="padding:0">
+            ${releases.length===0 ? '<div class="empty" style="padding:20px">No releases published</div>' :
+              releases.map(r=>`
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border2)">
+                  <div style="background:var(--bg3);border-radius:12px;padding:2px 10px;font-size:11px;color:var(--cyan);font-weight:700">${r.tag}</div>
+                  <div style="flex:1">
+                    <div style="font-size:12px;color:var(--text)">${r.name}</div>
+                    <div style="font-size:10px;color:var(--text3)">${new Date(r.publishedAt).toLocaleDateString()}</div>
+                  </div>
+                  <div style="font-size:11px;color:var(--text3)">${r.downloadCount} downloads</div>
+                  <a href="${r.apkUrl}" target="_blank" class="btn btn-ghost btn-sm">↓ APK</a>
+                </div>
+              `).join('')
+            }
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>📡 Distribution Info</h3></div>
+          <div style="padding:16px;font-size:11px;color:var(--text2);line-height:1.9;display:flex;flex-direction:column;gap:8px">
+            <div><b style="color:var(--cyan)">GitHub Repo:</b> <span style="font-family:monospace">CrestronDude/socatv-releases</span></div>
+            <div><b style="color:var(--cyan)">Download Link:</b> <a href="https://bit.ly/SocaTvNova_app" target="_blank" style="color:var(--cyan)">bit.ly/SocaTvNova_app</a></div>
+            <div><b style="color:var(--cyan)">Update Check:</b> On every app cold-start (GitHub Releases API)</div>
+            <div><b style="color:var(--cyan)">Delivery:</b> Direct HTTPS download from GitHub CDN</div>
+            <div><b style="color:var(--cyan)">Auth required:</b> No — public repo, open download</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `);
+}
+
+async function publishRelease(){
+  const code  = document.getElementById('relCode')?.value?.trim();
+  const name  = document.getElementById('relName')?.value?.trim();
+  const file  = document.getElementById('relApk')?.files?.[0];
+  const notes = document.getElementById('relNotes')?.value?.trim();
+  const force = document.getElementById('relForce')?.checked;
+
+  if (!code || !name) { toast('Version code and name are required','err'); return; }
+  if (!file) { toast('Select an APK file','err'); return; }
+
+  const bar    = document.getElementById('relProgressBar');
+  const label  = document.getElementById('relProgressLabel');
+  const prog   = document.getElementById('relProgress');
+  prog.style.display = 'block';
+  label.textContent  = 'Uploading APK to GitHub…';
+  bar.style.width    = '10%';
+
+  const fd = new FormData();
+  fd.append('versionCode', code);
+  fd.append('versionName', name);
+  fd.append('releaseNotes', notes || '');
+  fd.append('forceUpdate', force ? 'true' : 'false');
+  fd.append('apk', file);
+
+  try {
+    bar.style.width = '40%'; label.textContent = 'Creating GitHub Release…';
+    const resp = await fetch('/api/admin/releases/publish', { method:'POST', body: fd });
+    bar.style.width = '80%'; label.textContent = 'Finalising…';
+    const r = await resp.json();
+    if (r.ok) {
+      bar.style.width = '100%'; bar.style.background = 'var(--green)';
+      label.textContent = `Published ${r.tag} — all devices will update on next launch!`;
+      toast(`🚀 v${code} released! All ${(S.stats?.devices?.total||'all')} devices will auto-update`,'ok');
+      await fetchReleases(); await fetchConfig();
+      setTimeout(()=>{ prog.style.display='none'; bar.style.width='0%'; bar.style.background='var(--green)'; }, 4000);
+    } else {
+      throw new Error(r.error || 'Publish failed');
+    }
+  } catch(e) {
+    bar.style.background = 'var(--red)';
+    label.textContent = 'Error: ' + e.message;
+    toast('Publish failed: ' + e.message, 'err');
+  }
+}
+
+//  REMOTE CONFIG
+// ════════════════════════════════════════════════════════════════════════════
+function renderConfig(){
+  const c = S.config;
+  const f = c.features||{};
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Remote Config</div>
+      <div class="page-sub">Changes take effect within 6 hours (or next app cold-start)</div>
+    </div>
+
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-header"><h3>⚙️ Core Settings</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div class="form-group" style="margin:0"><label class="form-label">Trial Days</label><input class="form-input" id="cfgTrial" type="number" value="${c.trialDays||10}"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Price Label</label><input class="form-input" id="cfgPrice" value="${c.priceLabel||'$10 / year'}"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Payment URL</label><input class="form-input" id="cfgPayUrl" value="${c.paymentUrl||''}" placeholder="https://store.lemonsqueezy.com/..."></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Announcement Banner (leave blank to hide)</label><input class="form-input" id="cfgAnn" value="${c.announcement||''}" placeholder="New feature available!"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Min App Version Code</label><input class="form-input" id="cfgMinVer" type="number" value="${c.minVersionCode||1}"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Force Update URL (blank = off)</label><input class="form-input" id="cfgForceUrl" value="${c.forceUpdateUrl||''}"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Device Reporting URL (this server's public IP)</label><input class="form-input" id="cfgRepUrl" value="${c.reportingUrl||''}" placeholder="http://YOUR_IP:7890"></div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Panel Servers (one per line — app tries these in parallel on login)</label>
+              <textarea class="form-input" id="cfgPanelServers" rows="5" style="font-family:monospace;font-size:11px">${(c.panelServers||[]).join('\n')}</textarea>
+              <div style="font-size:10px;color:var(--text3);margin-top:4px">Add your IPTV panel server URL(s) here. All are tried simultaneously — first to respond wins. Push to Gist to update all devices instantly.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>🚦 Feature Flags</h3></div>
+          <div style="padding:16px">
+            ${featureToggle('App Enabled','kill switch — disable for maintenance','ffAppEnabled',c.appEnabled!==false)}
+            ${featureToggle('QR Login','phone-as-input login','ffQrLogin',f.qrLogin!==false)}
+            ${featureToggle('M3U Import','playlist import on login screen','ffM3u',f.m3uImport!==false)}
+            ${featureToggle('Xtream Codes Import','portal import on login screen','ffXtream',f.xtreamImport!==false)}
+            ${featureToggle('Multi-Screen','picture-in-picture multi-stream','ffMulti',f.multiscreen!==false)}
+            ${featureToggle('EPG / TV Guide','electronic programme guide','ffEpg',f.epg!==false)}
+          </div>
+        </div>
+
+        <div class="card" style="border:1px solid rgba(0,220,110,.25)">
+          <div class="card-header" style="background:rgba(0,220,110,.06)"><h3>🚀 OTA Update Manager</h3><span style="font-size:10px;color:var(--green)">LIVE PUSH</span></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-size:11px;color:var(--text3);line-height:1.6;padding:10px;background:rgba(0,220,110,.06);border-radius:6px">
+              Set <b style="color:var(--green)">Latest Version Code</b> higher than the installed version to trigger an update prompt on every user's device at next launch.
+            </div>
+            <div style="display:flex;gap:12px">
+              <div class="form-group" style="margin:0;flex:1"><label class="form-label">Latest Version Code</label><input class="form-input" id="cfgLatestCode" type="number" value="${c.latestVersionCode||1}" placeholder="e.g. 2"></div>
+              <div class="form-group" style="margin:0;flex:1"><label class="form-label">Version Name (display)</label><input class="form-input" id="cfgLatestName" value="${c.latestVersionName||'1.0.0'}" placeholder="e.g. 1.1.0"></div>
+            </div>
+            <div class="form-group" style="margin:0"><label class="form-label">APK Download URL (direct link)</label><input class="form-input" id="cfgApkUrl" value="${c.latestApkUrl||''}" placeholder="https://www.dropbox.com/...?dl=1"></div>
+            ${featureToggle('Force Update','users cannot skip — must update before entering app','ffForceUpdate',c.forceUpdate===true)}
+            <div style="font-size:10px;color:var(--text3)">After saving, click <b>Push to GitHub Gist</b> — devices will receive the update within 6 hours or on next cold-start.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-header"><h3>📝 Raw JSON Preview</h3></div>
+          <div style="padding:16px">
+            <textarea class="json-editor" id="rawJson" rows="16" oninput="jsonEdited=true">${JSON.stringify(c,null,2)}</textarea>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn btn-outline btn-sm" onclick="loadFromJson()">Apply JSON</button>
+              <button class="btn btn-outline btn-sm" onclick="document.getElementById('rawJson').value=JSON.stringify(S.config,null,2)">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>📤 Publish & Save</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-primary" style="width:100%" onclick="saveConfig()">💾 Save Config to Server</button>
+            <button class="btn btn-outline" style="width:100%" onclick="pushGist()">☁️ Push to GitHub Gist</button>
+            <div style="font-size:10px;color:var(--text3)">Saving updates the server immediately. Push to Gist updates the public URL the app polls every 6 hours.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>🕐 Config History</h3><button class="btn btn-ghost btn-sm" onclick="loadConfigHistory()">Load</button></div>
+          <div id="cfgHistory" style="padding:8px 16px;color:var(--text3);font-size:11px">Click "Load" to view history</div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function featureToggle(name, sub, id, checked){
+  return `<div class="toggle-switch">
+    <div><div class="toggle-label">${name}</div><div class="toggle-sub">${sub}</div></div>
+    <label class="switch"><input type="checkbox" id="${id}" ${checked?'checked':''}><span class="switch-slider"></span></label>
+  </div>`;
+}
+
+function loadFromJson(){
+  try {
+    const j = JSON.parse(document.getElementById('rawJson').value);
+    S.config = j;
+    renderConfig();
+    toast('JSON applied to form');
+  } catch(e){ toast('Invalid JSON: '+e.message,'err'); }
+}
+
+async function saveConfig(){
+  const c = {
+    trialDays:          parseInt(document.getElementById('cfgTrial')?.value)||10,
+    priceLabel:         document.getElementById('cfgPrice')?.value||'$10 / year',
+    paymentUrl:         document.getElementById('cfgPayUrl')?.value||'',
+    announcement:       document.getElementById('cfgAnn')?.value||'',
+    minVersionCode:     parseInt(document.getElementById('cfgMinVer')?.value)||1,
+    forceUpdateUrl:     document.getElementById('cfgForceUrl')?.value||'',
+    reportingUrl:       document.getElementById('cfgRepUrl')?.value||'',
+    downloadUrl:        'https://bit.ly/SocaTvNova',
+    latestVersionCode:  parseInt(document.getElementById('cfgLatestCode')?.value)||1,
+    latestVersionName:  document.getElementById('cfgLatestName')?.value||'1.0.0',
+    latestApkUrl:       document.getElementById('cfgApkUrl')?.value||'',
+    forceUpdate:        !!document.getElementById('ffForceUpdate')?.checked,
+    panelServers:       (document.getElementById('cfgPanelServers')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean),
+    activationEnabled:  true,
+    appEnabled:         document.getElementById('ffAppEnabled')?.checked!==false,
+    features:{
+      qrLogin:      !!document.getElementById('ffQrLogin')?.checked,
+      m3uImport:    !!document.getElementById('ffM3u')?.checked,
+      xtreamImport: !!document.getElementById('ffXtream')?.checked,
+      multiscreen:  !!document.getElementById('ffMulti')?.checked,
+      epg:          !!document.getElementById('ffEpg')?.checked
+    }
+  };
+  const r = await api('PUT','/api/admin/config',c);
+  if(r.ok){ S.config=r.config; toast('Config saved!'); renderConfig(); }
+  else toast(r.error||'Error','err');
+}
+
+async function pushGist(){
+  const r = await api('POST','/api/admin/config/push-gist',{});
+  if(r.ok) toast('Config pushed to GitHub Gist!');
+  else toast('Gist push failed — check GitHub token & Gist ID in Settings','err');
+}
+
+async function loadConfigHistory(){
+  const hist = await api('GET','/api/admin/config/history');
+  const el = document.getElementById('cfgHistory');
+  if(!el) return;
+  el.innerHTML = hist.length===0?'<div class="empty">No history</div>':
+    hist.map(h=>`<div style="padding:6px 0;border-bottom:1px solid var(--border2)"><span style="color:var(--cyan)">${new Date(h.savedAt).toLocaleString()}</span><button class="btn btn-ghost btn-sm" style="margin-left:8px" onclick="restoreConfigSnapshot(${JSON.stringify(JSON.stringify(h.snapshot))})">Restore</button></div>`).join('');
+}
+
+async function restoreConfigSnapshot(jsonStr){
+  if(!confirm('Restore this config snapshot?')) return;
+  const r = await api('PUT','/api/admin/config',JSON.parse(jsonStr));
+  if(r.ok){ S.config=r.config; toast('Config restored'); renderConfig(); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  BROADCAST
+// ════════════════════════════════════════════════════════════════════════════
+function renderBroadcast(){
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Broadcast</div>
+      <div class="page-sub">Send announcements to all or targeted users</div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header"><h3>📣 Announcement Message</h3></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Message (shown as banner in app)</label>
+            <textarea class="form-textarea" id="annMsg" rows="4" placeholder="e.g. New channels added! Update the app for the best experience.">${S.config.announcement||''}</textarea>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Clear after (leave blank = stays forever)</label>
+            <input class="form-input" id="annClear" placeholder="e.g. 2026-07-01">
+          </div>
+          <button class="btn btn-primary" onclick="sendAnnouncement()">📣 Publish to All Devices</button>
+          <button class="btn btn-danger" onclick="clearAnnouncement()">✕ Clear Announcement</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>👁 Preview</h3></div>
+        <div style="padding:16px">
+          <div style="background:rgba(0,220,255,.08);border:1px solid rgba(0,220,255,.25);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--cyan);min-height:48px" id="annPreview">
+            ${S.config.announcement||'<span style="color:var(--text3)">No active announcement</span>'}
+          </div>
+          <div style="font-size:10px;color:var(--text3);margin-top:8px">This is how the banner appears in the app</div>
+          <hr class="divider">
+          <div class="section-divider">Per-Device Message</div>
+          <p style="color:var(--text3);font-size:12px;margin-bottom:10px">Send a one-off message to a specific device (via device drawer)</p>
+          <button class="btn btn-outline" style="width:100%" onclick="nav('devices')">Go to Devices →</button>
+        </div>
+      </div>
+    </div>
+  `);
+  document.getElementById('annMsg')?.addEventListener('input', e=>{
+    document.getElementById('annPreview').textContent = e.target.value||'';
+  });
+}
+async function sendAnnouncement(){
+  const msg = document.getElementById('annMsg')?.value||'';
+  const r = await api('PUT','/api/admin/config',{announcement:msg});
+  if(r.ok) toast('Announcement published!');
+  else toast('Error','err');
+}
+async function clearAnnouncement(){
+  await api('PUT','/api/admin/config',{announcement:''});
+  document.getElementById('annMsg').value='';
+  document.getElementById('annPreview').innerHTML='<span style="color:var(--text3)">No active announcement</span>';
+  toast('Announcement cleared');
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  ANALYTICS
+// ════════════════════════════════════════════════════════════════════════════
+function renderAnalytics(){
+  const d = S.stats;
+  const devs = S.devices;
+  const now = Date.now();
+
+  // Status breakdown
+  const byStatus = {trial:0,licensed:0,expired:0,revoked:0};
+  devs.forEach(d=>{ byStatus[d.status]=(byStatus[d.status]||0)+1; });
+
+  // Country breakdown
+  const byCountry = {};
+  devs.forEach(d=>{ if(d.country) byCountry[d.country]=(byCountry[d.country]||0)+1; });
+  const topCountries = Object.entries(byCountry).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxCountry = topCountries[0]?.[1]||1;
+
+  // Device age buckets
+  const ages = {today:0,week:0,month:0,older:0};
+  devs.forEach(dev=>{
+    const age = now-dev.firstSeen;
+    if(age<86400000) ages.today++;
+    else if(age<7*86400000) ages.week++;
+    else if(age<30*86400000) ages.month++;
+    else ages.older++;
+  });
+
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Analytics</div>
+      <div class="page-sub">Usage patterns, conversion, and geographic breakdown</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card cyan"><div class="val">${d.totalDevices||0}</div><div class="lbl">Total Installs</div></div>
+      <div class="stat-card green"><div class="val">${pct(d.licensedDevices,d.totalDevices)}</div><div class="lbl">Conversion Rate</div></div>
+      <div class="stat-card gold"><div class="val">$${((d.licensedDevices||0)*10).toFixed(0)}</div><div class="lbl">Potential ARR</div></div>
+      <div class="stat-card orange"><div class="val">${d.expiredDevices||0}</div><div class="lbl">Revenue Opportunities</div></div>
+      <div class="stat-card purple"><div class="val">${d.countries||0}</div><div class="lbl">Countries</div></div>
+      <div class="stat-card cyan"><div class="val">${d.activeThisWeek||0}</div><div class="lbl">WAU</div></div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-header"><h3>📊 User Status Breakdown</h3></div>
+        <div style="padding:16px">
+          ${Object.entries(byStatus).map(([s,n])=>`
+            <div class="chart-row">
+              <span class="badge badge-${statusClass(s)}" style="width:70px;text-align:center">${s}</span>
+              <div class="chart-bar-bg">
+                <div class="chart-bar" style="width:${devs.length?Math.round(n/devs.length*100):0}%;background:${{trial:'var(--cyan)',licensed:'var(--green)',expired:'var(--red)',revoked:'#555'}[s]}">${devs.length?Math.round(n/devs.length*100):0}%</div>
+              </div>
+              <span class="chart-val">${n}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>📅 Device Age Cohorts</h3></div>
+        <div style="padding:16px">
+          ${[['Joined Today',ages.today,'var(--purple)'],['This Week',ages.week,'var(--cyan)'],['This Month',ages.month,'var(--green)'],['Older',ages.older,'var(--text3)']].map(([l,n,c])=>`
+            <div class="chart-row">
+              <span style="width:90px;font-size:11px;color:var(--text2)">${l}</span>
+              <div class="chart-bar-bg">
+                <div class="chart-bar" style="width:${devs.length?Math.round(n/devs.length*100):0}%;background:${c}">${devs.length?Math.round(n/devs.length*100):0}%</div>
+              </div>
+              <span class="chart-val">${n}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header"><h3>🌍 Top Countries</h3></div>
+        <div style="padding:12px 16px">
+          ${topCountries.length===0?'<div class="empty">No geo data yet</div>':
+            topCountries.map(([c,n])=>`
+              <div class="chart-row" style="margin-bottom:8px">
+                <span style="width:120px;font-size:12px">${geoFlag(c)} ${c}</span>
+                <div class="chart-bar-bg">
+                  <div class="chart-bar" style="width:${Math.round(n/maxCountry*100)}%;background:var(--cyan)">${n}</div>
+                </div>
+                <span class="chart-val">${pct(n,devs.length)}</span>
+              </div>
+            `).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>💰 Revenue Funnel</h3></div>
+        <div style="padding:16px">
+          ${[
+            ['Installs',d.totalDevices||0,'var(--cyan)',100],
+            ['Completed Trial',(d.licensedDevices||0)+(d.expiredDevices||0),'var(--cyan)',d.totalDevices?Math.round(((d.licensedDevices||0)+(d.expiredDevices||0))/d.totalDevices*100):0],
+            ['Paid (Licensed)',d.licensedDevices||0,'var(--green)',d.totalDevices?Math.round((d.licensedDevices||0)/d.totalDevices*100):0],
+          ].map(([l,n,c,p])=>`
+            <div class="chart-row" style="margin-bottom:12px">
+              <span style="width:110px;font-size:11px;color:var(--text2)">${l}</span>
+              <div class="chart-bar-bg">
+                <div class="chart-bar" style="width:${p}%;background:${c};min-width:${n>0?'2px':'0'}">${p}%</div>
+              </div>
+              <span class="chart-val" style="color:${c}">${n}</span>
+            </div>
+          `).join('')}
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border2)">
+            <div style="font-size:10px;color:var(--text3)">Trial-to-Paid Conversion</div>
+            <div style="font-size:24px;font-weight:700;color:var(--gold)">${pct(d.licensedDevices,d.totalDevices)}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  ACTIVITY LOG
+// ════════════════════════════════════════════════════════════════════════════
+function renderActivity(){
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Activity Log</div>
+      <div class="page-sub">Every device event, admin action, and system event in real time</div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3>Events (${S.activity.length})</h3>
+        <button class="btn btn-outline btn-sm" onclick="exportActivity()">Export CSV</button>
+        <button class="btn btn-outline btn-sm" onclick="fetchActivity().then(renderActivity)">↻ Refresh</button>
+      </div>
+      <div style="padding:0 16px 8px;max-height:70vh;overflow-y:auto">
+        ${S.activity.length===0?'<div class="empty"><div class="empty-icon">📭</div>No events yet</div>':S.activity.map(e=>activityRow(e,true)).join('')}
+      </div>
+    </div>
+  `);
+}
+
+function exportActivity(){
+  const rows=[['Type','DeviceID','Data','Timestamp'],...S.activity.map(e=>[e.type,e.deviceId||'',JSON.stringify(e.data||{}),new Date(e.ts).toISOString()])];
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='activity.csv';a.click();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  SETTINGS
+// ════════════════════════════════════════════════════════════════════════════
+function renderSettings(){
+  const s = S.settings;
+  set('content',`
+    <div class="page-header">
+      <div class="page-title">Settings</div>
+      <div class="page-sub">Security, integrations, backup, and danger zone</div>
+    </div>
+
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-header"><h3>🔐 Security</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Check-in API Key (devices must send this)</label>
+              <input class="form-input" id="setApiKey" value="${s.checkinApiKey||''}" placeholder="Set a strong random key">
+              <div style="font-size:10px;color:var(--text3);margin-top:4px">Also update this in DeviceReporter.kt in the app</div>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">License Secret Key (CURRENT: ${s.licenseSecret||'[hidden]'})</label>
+              <input class="form-input" id="setSecret" type="password" placeholder="New secret key (leave blank to keep current)">
+              <input class="form-input" id="setSecretConfirm" type="password" placeholder="Confirm new secret key" style="margin-top:6px">
+              <div style="font-size:10px;color:var(--red);margin-top:4px">⚠ Changing invalidates ALL existing license keys!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>☁️ GitHub Gist Integration</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">GitHub Personal Access Token</label>
+              <input class="form-input" id="setGhToken" type="password" value="${s.githubToken||''}" placeholder="ghp_xxxxxxxxxxxxx">
+              <div style="font-size:10px;color:var(--text3);margin-top:4px">Needs gist:write scope. Create at github.com/settings/tokens</div>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Gist ID</label>
+              <input class="form-input" id="setGistId" value="${s.gistId||''}" placeholder="e.g. a1b2c3d4e5f6...">
+              <div style="font-size:10px;color:var(--text3);margin-top:4px">The ID from your Gist URL: gist.github.com/user/[THIS_PART]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>💰 Revenue Tracking</h3></div>
+          <div style="padding:16px">
+            <div class="revenue-display">$${(s.revenue||0).toFixed(2)}</div>
+            <div class="form-row" style="margin-top:12px">
+              <div class="form-group" style="margin:0">
+                <label class="form-label">Record Payment</label>
+                <input class="form-input" id="revAmount" type="number" value="10" min="0">
+              </div>
+              <div class="form-group" style="margin:0">
+                <label class="form-label">Note</label>
+                <input class="form-input" id="revNote" placeholder="e.g. new subscriber">
+              </div>
+            </div>
+            <button class="btn btn-gold" style="width:100%;margin-top:8px" onclick="recordRevenue()">Add Revenue</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%" onclick="saveSettings()">💾 Save All Settings</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-header"><h3>📦 Backup & Restore</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+            <a href="/api/admin/backup" download class="btn btn-outline" style="text-align:center;text-decoration:none">⬇️ Download Database Backup</a>
+            <div style="font-size:10px;color:var(--text3)">Downloads the complete nova_data.json file</div>
+            <hr class="divider">
+            <label class="form-label">Restore from Backup</label>
+            <input type="file" id="restoreFile" accept=".json" style="color:var(--text2);font-size:12px">
+            <button class="btn btn-outline" onclick="doRestore()">⬆️ Restore</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>📡 App Integration Guide</h3></div>
+          <div style="padding:16px;font-size:11px;color:var(--text2);line-height:1.8">
+            <p style="margin-bottom:8px"><strong style="color:var(--cyan)">1. Set the reporting URL</strong><br>
+            In Remote Config → set <code>reportingUrl</code> to this server's public address, e.g. <code>http://YOUR_IP:7890</code></p>
+            <p style="margin-bottom:8px"><strong style="color:var(--cyan)">2. Set the API key</strong><br>
+            Copy the Check-in API Key above into <code>DeviceReporter.kt</code> → <code>API_KEY</code> constant</p>
+            <p style="margin-bottom:8px"><strong style="color:var(--cyan)">3. Port access</strong><br>
+            If self-hosting: open port 7890 in your VPS firewall. The admin panel and device API share the same port.</p>
+            <p><strong style="color:var(--cyan)">4. Security (optional)</strong><br>
+            Put Nginx in front with HTTPS and HTTP Basic Auth for the admin panel path.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>🤖 Payment Automation (Zero-Input)</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+            <div style="background:rgba(0,220,110,.07);border:1px solid rgba(0,220,110,.2);border-radius:8px;padding:12px;font-size:11px;color:var(--green);line-height:1.6">
+              <strong>How it works:</strong> Customer pays → Lemon Squeezy fires webhook → server auto-generates license key → emails key instantly. Zero input from you.
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Gmail Address (sends license keys)</label>
+              <input class="form-input" id="setSmtpUser" value="${s.smtpUser||''}" placeholder="yourgmail@gmail.com">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Gmail App Password</label>
+              <input class="form-input" id="setSmtpPass" type="password" value="${s.smtpPass||''}" placeholder="16-char app password from Google Account">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Lemon Squeezy Webhook Secret</label>
+              <input class="form-input" id="setLemonSecret" value="${s.lemonWebhookSecret||''}" placeholder="From Lemon Squeezy → Settings → Webhooks">
+            </div>
+            <div style="background:var(--bg4);border-radius:8px;padding:12px;font-size:11px;color:var(--text2)">
+              <div style="color:var(--cyan);font-weight:600;margin-bottom:6px">Webhook URL to paste in Lemon Squeezy:</div>
+              <div style="font-family:monospace;color:#fff;word-break:break-all">http://YOUR_PUBLIC_IP:7890/api/webhook/lemonsqueezy</div>
+              <div style="color:var(--text3);margin-top:6px">Enable events: <strong>order_created</strong> · <strong>subscription_created</strong></div>
+            </div>
+            <button class="btn btn-success" style="width:100%" onclick="saveAutomationSettings()">💾 Save Automation Settings</button>
+          </div>
+        </div>
+
+        <div class="card" style="border-color:rgba(255,85,85,.3)">
+          <div class="card-header" style="border-color:rgba(255,85,85,.2)"><h3 style="color:var(--red)">☠️ Danger Zone</h3></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-danger" style="width:100%" onclick="if(confirm('Delete ALL devices?'))api('POST','/api/admin/devices/bulk',{ids:S.devices.map(d=>d.deviceId),action:'delete'}).then(()=>{fetchDevices();toast('All devices deleted')})">Delete All Device Records</button>
+            <button class="btn btn-danger" style="width:100%" onclick="if(confirm('Delete ALL license keys?'))Promise.all(S.licenses.map(l=>api('DELETE','/api/admin/licenses/'+encodeURIComponent(l.key)))).then(()=>{fetchLicenses();toast('All licenses deleted')})">Delete All Licenses</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+async function saveSettings(){
+  const body = {
+    checkinApiKey: document.getElementById('setApiKey')?.value,
+    githubToken:   document.getElementById('setGhToken')?.value,
+    gistId:        document.getElementById('setGistId')?.value,
+  };
+  const ns = document.getElementById('setSecret')?.value;
+  const nc = document.getElementById('setSecretConfirm')?.value;
+  if(ns){ body.licenseSecret=ns; body.confirmSecret=nc; }
+  const r = await api('PUT','/api/admin/settings',body);
+  if(r.ok) toast('Settings saved');
+  else toast('Error','err');
+}
+
+async function recordRevenue(){
+  const amount = parseFloat(document.getElementById('revAmount')?.value)||0;
+  const note   = document.getElementById('revNote')?.value||'';
+  await api('POST','/api/admin/settings/revenue',{amount,note});
+  toast(`$${amount} recorded`);
+  await fetchSettings(); renderSettings();
+}
+
+async function saveAutomationSettings(){
+  const body = {
+    smtpUser:           document.getElementById('setSmtpUser')?.value||'',
+    smtpPass:           document.getElementById('setSmtpPass')?.value||'',
+    lemonWebhookSecret: document.getElementById('setLemonSecret')?.value||''
+  };
+  const r = await api('PUT','/api/admin/settings',body);
+  if(r.ok) toast('Automation settings saved — email delivery is now live!');
+  else toast('Error saving','err');
+}
+
+async function doRestore(){
+  const file = document.getElementById('restoreFile')?.files?.[0];
+  if(!file){ toast('Select a backup file first','err'); return; }
+  const text = await file.text();
+  try {
+    const data = JSON.parse(text);
+    const r = await api('POST','/api/admin/restore',data);
+    if(r.ok){ toast('Database restored! Refreshing…'); setTimeout(()=>window.location.reload(),1000); }
+    else toast('Restore failed','err');
+  } catch(e){ toast('Invalid backup file','err'); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════════════════════════════════
+function set(id, html){ document.getElementById(id).innerHTML=html; }
+function setDrawer(html){ document.getElementById('drawer').innerHTML=html; }
+function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('drawerOverlay').style.display='block'; }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerOverlay').style.display='none'; }
+function showModal(html){ document.getElementById('modalBox').innerHTML=html; document.getElementById('modalOverlay').style.display='flex'; }
+function closeModal(){ document.getElementById('modalOverlay').style.display='none'; }
+
+function relTime(ts){
+  if(!ts) return '—';
+  const d=(Date.now()-ts)/1000;
+  if(d<60) return 'just now';
+  if(d<3600) return Math.floor(d/60)+'m ago';
+  if(d<86400) return Math.floor(d/3600)+'h ago';
+  if(d<7*86400) return Math.floor(d/86400)+'d ago';
+  return new Date(ts).toLocaleDateString();
+}
+function dateStr(ts){ return ts?new Date(ts).toLocaleString():'—'; }
+function pct(n,total){ return total?Math.round((n||0)/(total||1)*100)+'%':'0%'; }
+function defaultExpiry(years=1){ const d=new Date(); d.setFullYear(d.getFullYear()+years); return fmtDate(d); }
+function fmtDate(d){ return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+function statusClass(s){ return {trial:'trial',licensed:'licensed',expired:'expired',revoked:'revoked'}[s]||'trial'; }
+function licBadge(l){
+  if(l.revoked) return '<span class="badge badge-revoked">Revoked</span>';
+  if(!l.deviceId) return '<span class="badge badge-new">Unused</span>';
+  if(new Date(l.expiryTs)>new Date()) return '<span class="badge badge-licensed">Active</span>';
+  return '<span class="badge badge-expired">Expired</span>';
+}
+function trialDay(d){
+  if(d.status==='licensed') return '<span style="color:var(--green)">Licensed</span>';
+  const days = Math.floor((Date.now()-(d.trialStartTs||Date.now()))/86400000);
+  const max  = d.customTrialDays||S.config.trialDays||10;
+  if(days>=max) return `<span style="color:var(--red)">Expired (${days}d)</span>`;
+  return `<span style="color:var(--cyan)">Day ${days+1}/${max}</span>`;
+}
+function geoFlag(country){
+  if(!country||country==='Local') return '🌐';
+  const flags={
+    'United States':'🇺🇸','Canada':'🇨🇦','United Kingdom':'🇬🇧','Australia':'🇦🇺',
+    'Germany':'🇩🇪','France':'🇫🇷','Brazil':'🇧🇷','India':'🇮🇳',
+    'Jamaica':'🇯🇲','Trinidad':'🇹🇹','Barbados':'🇧🇧','Guyana':'🇬🇾',
+    'Trinidad and Tobago':'🇹🇹','Nigeria':'🇳🇬','Ghana':'🇬🇭',
+    'Netherlands':'🇳🇱','Sweden':'🇸🇪','Norway':'🇳🇴',
+    'New Zealand':'🇳🇿','South Africa':'🇿🇦','Unknown':'🌍'
+  };
+  return flags[country]||'🌍';
+}
+function infoRows(pairs){
+  return `<div>${pairs.map(([k,v])=>`<div class="info-row"><span class="info-label">${k}</span><span class="info-val">${v}</span></div>`).join('')}</div>`;
+}
+function activityRow(a, full=false){
+  const colors={
+    new_device:'var(--purple)', checkin:'var(--cyan)', trial_extended:'var(--green)',
+    license_generated:'var(--gold)', license_extended:'var(--gold)', license_revoked:'var(--red)',
+    admin_edit:'var(--orange)', config_updated:'var(--cyan)', revenue_recorded:'var(--gold)',
+    device_deleted:'var(--red)', config_pushed_gist:'var(--green)', bulk_extend_trial:'var(--green)',
+    bulk_set_status:'var(--cyan)', bulk_delete:'var(--red)'
+  };
+  const c = colors[a.type]||'var(--text3)';
+  return `<div class="activity-item">
+    <div class="activity-dot" style="background:${c}"></div>
+    <div class="activity-body">
+      <span class="activity-type" style="color:${c}">${a.type}</span>
+      ${full&&a.deviceId?`<span style="color:var(--text3);font-size:10px;margin-left:8px">${a.deviceId.slice(0,12)}…</span>`:''}
+      <div class="activity-meta">${relTime(a.ts)}${a.data&&Object.keys(a.data).length?' · '+JSON.stringify(a.data).slice(0,80):''}</div>
+    </div>
+  </div>`;
+}
+function copyText(text){
+  navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard'));
+}
+
+function showGenModal(){
+  showModal(`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Quick Key Generator</h2>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Expiry</label><input class="form-input" id="qkExp" value="${defaultExpiry()}"></div>
+      <div class="form-group"><label class="form-label">Count</label><input class="form-input" id="qkCount" type="number" value="1" min="1"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="qkGen()">Generate</button>
+    </div>
+  `);
+}
+async function qkGen(){
+  const exp=document.getElementById('qkExp')?.value; const count=parseInt(document.getElementById('qkCount')?.value)||1;
+  const r=await api('POST','/api/admin/licenses/generate',{expiryDate:exp,count});
+  closeModal();
+  if(r.ok){ if(count===1){copyText(r.keys[0].key);toast('Key generated & copied: '+r.keys[0].key);}else toast(`${count} keys generated`); await fetchLicenses(); }
+}
+
+function showRevenueModal(){
+  showModal(`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Record Payment</h2>
+    <div class="form-group"><label class="form-label">Amount (USD)</label><input class="form-input" id="mRevAmt" type="number" value="10" min="0"></div>
+    <div class="form-group"><label class="form-label">Note</label><input class="form-input" id="mRevNote" placeholder="e.g. New subscriber via Lemon Squeezy"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="mRecRev()">Record</button>
+    </div>
+  `);
+}
+async function mRecRev(){
+  await api('POST','/api/admin/settings/revenue',{amount:parseFloat(document.getElementById('mRevAmt')?.value)||0,note:document.getElementById('mRevNote')?.value});
+  closeModal(); toast('Payment recorded');
+  await fetchStats(); renderDashboard();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  CLOCK + AUTO-REFRESH
+// ════════════════════════════════════════════════════════════════════════════
+function updateClock(){
+  const now = new Date();
+  document.getElementById('chip-time').textContent =
+    now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── Real-time SSE connection ──────────────────────────────────────────────────
+const liveChip = document.getElementById('chip-live');
+let sseOk = false;
+
+function connectSSE() {
+  const es = new EventSource('/api/admin/events');
+
+  es.addEventListener('connected', () => {
+    sseOk = true;
+    liveChip.textContent = '● Live';
+    liveChip.style.color = 'var(--green)';
+  });
+
+  es.addEventListener('checkin', async (e) => {
+    const d = JSON.parse(e.data);
+    // Refresh stats + devices immediately without full page reload
+    await fetchStats();
+    await fetchDevices();
+    if (S.page === 'dashboard') renderDashboard();
+    if (S.page === 'devices')   renderDevices();
+    // Flash the Live chip to show activity
+    liveChip.textContent = `● ${d.isNew ? 'New Device' : d.model || 'Check-in'}`;
+    setTimeout(() => { liveChip.textContent = '● Live'; }, 3000);
+  });
+
+  es.addEventListener('blocked', async (e) => {
+    await fetchStats();
+    if (S.page === 'dashboard') renderDashboard();
+  });
+
+  es.onerror = () => {
+    sseOk = false;
+    liveChip.textContent = '○ Offline';
+    liveChip.style.color = 'var(--red)';
+    es.close();
+    // Reconnect after 5 seconds
+    setTimeout(connectSSE, 5000);
+  };
+}
+connectSSE();
+
+// Fallback poll every 30s (covers cases where SSE event was missed)
+setInterval(async ()=>{
+  await fetchStats();
+  if(S.page==='dashboard') renderDashboard();
+  if(S.page==='devices'){ await fetchDevices(); renderDevices(); }
+}, 30000);
+
+// ════════════════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════════════════
+(async()=>{
+  await fetchStats();
+  await fetchDevices();
+  await fetchConfig();
+  await fetchGroups();
+  renderDashboard();
+})();
+</script>
+</body>
+</html>

@@ -15,3 +15,8 @@ app/release/
 *.jks
 *.keystore
 .env
+# Admin panel runtime files (not source)
+admin-panel/node_modules/
+admin-panel/.env
+admin-panel/nova_data.json
+admin-panel/tmp_uploads/

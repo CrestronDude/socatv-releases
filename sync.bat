@@ -43,6 +43,13 @@ if errorlevel 1 (
     )
     echo.
     echo Sync complete. Changes pushed to GitHub.
+
+    :: Restart admin panel if server.js or panel.html changed
+    git diff HEAD~1 --name-only 2>nul | findstr /i "admin-panel" >nul
+    if not errorlevel 1 (
+        echo Restarting admin panel...
+        pm2 restart socatv-admin
+    )
 ) else (
     echo.
     echo Nothing to commit. Already up to date.
